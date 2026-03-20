@@ -1,0 +1,226 @@
+---
+description: Definir y respetar la arquitectura del proyecto Vue 3 + Strapi basada en features y renderizado dinámico
+alwaysApply: true
+---
+
+# Arquitectura del proyecto
+
+Este proyecto debe seguir una arquitectura **modular basada en features**, separando claramente responsabilidades entre UI, lógica, datos y servicios.
+
+El objetivo es mantener el código **escalable, mantenible y desacoplado**, especialmente considerando que los datos provienen de Strapi y que se renderizan componentes dinámicamente.
+
+---
+
+# Estructura de carpetas
+
+El proyecto debe organizarse de la siguiente forma:
+src/
+│
+├── app/
+│ ├── router/
+│ ├── layouts/
+│ └── providers/
+│
+├── shared/
+│ ├── ui/
+│ ├── components/
+│ ├── composables/
+│ ├── utils/
+│ ├── types/
+│ └── constants/
+│
+├── features/
+│ ├── home/
+│ ├── projects/
+│ ├── experience/
+│ └── dynamic-blocks/
+│
+├── services/
+│ ├── http/
+│ └── strapi/
+│
+└── main.ts
+
+---
+
+# Principios generales
+
+- Organizar el código por **features**, no por tipo global (evitar carpetas gigantes como `components/` con todo mezclado).
+- Cada feature debe ser **autosuficiente**.
+- Separar:
+  - UI (componentes)
+  - lógica (composables)
+  - datos (api)
+  - transformación (mappers)
+- Evitar duplicación de lógica.
+- Mantener componentes pequeños y reutilizables.
+
+---
+
+# Estructura de un feature
+
+Cada feature debe seguir esta estructura:
+
+feature-name/
+│
+├── api/
+├── components/
+├── composables/
+├── types/
+├── mappers/
+└── views/
+
+## Reglas
+
+- `api/`: llamadas a Strapi o servicios externos.
+- `components/`: componentes UI del feature.
+- `composables/`: lógica reutilizable del feature.
+- `types/`: tipos TypeScript (DTOs y modelos).
+- `mappers/`: transformación de datos del CMS → UI.
+- `views/`: páginas principales del feature.
+
+---
+
+# Capa de servicios
+
+Toda llamada HTTP debe centralizarse en:
+
+services/http/
+services/strapi/
+
+
+## Reglas
+
+- No hacer `fetch` o `axios` directamente en componentes.
+- Usar funciones reutilizables para llamadas a la API.
+- Manejar headers, tokens y configuración en un solo lugar.
+
+---
+
+# Manejo de datos (flujo)
+
+El flujo de datos debe ser:
+
+API (Strapi) → mapper → modelo → componente
+
+
+## Reglas
+
+- Nunca usar directamente la respuesta cruda de Strapi en la UI.
+- Siempre transformar los datos mediante `mappers`.
+- Definir tipos claros para:
+  - respuesta de Strapi
+  - modelo interno
+
+---
+
+# Renderizado dinámico (Dynamic Blocks)
+
+El proyecto debe implementar un sistema de render dinámico basado en bloques de Strapi.
+
+## Reglas
+
+- Crear un `block registry` que relacione:
+  - tipo de bloque (string)
+  - componente Vue
+
+Ejemplo:
+
+{
+'sections.hero': HeroSection,
+'sections.project-list': ProjectListSection
+}
+
+
+- Usar `<component :is="...">` para render dinámico.
+- Cada bloque debe mapearse a un componente independiente.
+- No usar condicionales largos (`v-if` masivos) para resolver bloques.
+
+---
+
+# Componentes
+
+## Reglas
+
+- Separar componentes en:
+  - presentacionales (UI)
+  - contenedores (manejan datos)
+- Evitar lógica compleja dentro de templates.
+- Usar props tipadas.
+- Mantener componentes pequeños y reutilizables.
+
+---
+
+# Composables
+
+## Reglas
+
+- Toda lógica reutilizable debe ir en composables.
+- No duplicar lógica de fetch en múltiples componentes.
+- Manejar estados como:
+  - loading
+  - error
+  - data
+
+---
+
+# Estado global
+
+## Reglas
+
+- Usar Pinia solo si es necesario.
+- No usar estado global para todo.
+- Casos válidos:
+  - autenticación
+  - tema (dark/light)
+  - idioma
+  - cache global
+
+---
+
+# Routing
+
+## Rutas principales
+
+/
+/projects
+/projects/:slug
+/experience
+
+
+## Reglas
+
+- Separar vistas por feature.
+- No mezclar lógica de routing dentro de componentes UI.
+
+---
+
+# Buenas prácticas
+
+- Usar Composition API (`script setup`).
+- Usar TypeScript en todo el proyecto.
+- Mantener consistencia en nombres.
+- Evitar lógica duplicada.
+- Priorizar legibilidad sobre complejidad.
+
+---
+
+# Antipatrones (NO hacer)
+
+- No mezclar lógica, UI y fetch en un mismo archivo.
+- No consumir directamente Strapi en componentes.
+- No crear componentes gigantes.
+- No usar estado global innecesariamente.
+- No hardcodear estructuras que deben venir del CMS.
+
+---
+
+# Objetivo final
+
+El proyecto debe ser:
+
+- escalable
+- mantenible
+- desacoplado del CMS
+- fácil de extender con nuevos bloques o secciones
+- claro para cualquier desarrollador frontend

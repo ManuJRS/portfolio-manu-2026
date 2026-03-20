@@ -1,0 +1,42 @@
+---
+description: Usar Conventional Commits en todos los commits del proyecto
+alwaysApply: true
+---
+
+# Convenciones de commits
+
+Siempre que hagas o sugieras commits en este proyecto, sigue **Conventional Commits**.
+
+## Formato
+
+```
+<type>(<scope opcional>): <descripción corta>
+
+[cuerpo opcional]
+
+[footer opcional]
+```
+
+## Types habituales
+
+- **feat**: nueva funcionalidad
+- **fix**: corrección de bug
+- **docs**: solo documentación
+- **style**: formato, espacios, etc. (no cambio de lógica)
+- **refactor**: cambio de código que no añade feature ni arregla bug
+- **perf**: mejora de rendimiento
+- **test**: añadir o cambiar tests
+- **chore**: tareas de mantenimiento, deps, config
+
+## Ejemplos
+
+- `feat(auth): add session init with shared promise`
+- `fix(router): guard requiresAuth for protected routes`
+- `docs: add QA auth report`
+- `refactor(movies): remove duplicate loadMovies on mount`
+
+## Reglas
+
+- Descripción en minúsculas (salvo nombres propios/acrónimos).
+- Sin punto final en la línea del subject.
+- Máximo ~50 caracteres en el subject; detalles en el cuerpo si hace falta.
