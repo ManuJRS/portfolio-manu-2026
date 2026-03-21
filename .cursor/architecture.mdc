@@ -224,3 +224,13 @@ El proyecto debe ser:
 - desacoplado del CMS
 - fácil de extender con nuevos bloques o secciones
 - claro para cualquier desarrollador frontend
+
+# Locales e internacionalización con Strapi
+
+## Reglas
+- La internacionalización del contenido vive en Strapi.
+- No usar vue-i18n mientras la UI no tenga textos propios hardcodeados.
+- El frontend debe resolver el locale actual y solicitar la data al CMS con ese locale.
+- Debe existir una sola app Vue capaz de renderizar distintos bloques según el locale.
+- Diferentes locales pueden traer distinta composición de bloques desde Strapi.
+- El sistema de render dinámico debe soportar variaciones por idioma sin lógica condicional acoplada.
