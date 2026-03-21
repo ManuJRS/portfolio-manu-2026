@@ -1,0 +1,258 @@
+{
+  "_comment": "Guía: bloque Strapi dentro de project-portfolios.sections[]",
+  "__component": "components.project-technical-breakdown",
+"id": 2,
+"sectionLabel": "SCHEMATIC BREAKDOWN",
+"sectionIndex": "02 // TECHNICAL SOLUTION",
+"highlightTitle": "THE ARCH CONTROLLER",
+"highlightDescription": "Implemented a custom event-bus architecture that throttles incoming telemetry data, ensuring that the main thread never blocks during peak traffic.",
+"featuredItem": [
+  {
+    "id": 3,
+    "title": "Shaders",
+    "description": "GLSL implementation for real-time edge detection and node connection effects.\n\n"
+  },
+  {
+    "id": 4,
+    "title": "Storage",
+    "description": "IndexedDB optimization for persistent session caching in offline environments."
+  }
+],
+"images": [
+  {
+    "id": 4,
+    "documentId": "ux443lipsndc2md6v46k1s7s",
+    "name": "Captura de pantalla de 2026-03-16 14-58-44 (3).png",
+    "alternativeText": null,
+    "caption": null,
+    "width": 1044,
+    "height": 600,
+    "formats": {
+      "thumbnail": {
+        "name": "thumbnail_Captura de pantalla de 2026-03-16 14-58-44 (3).png",
+        "hash": "thumbnail_Captura_de_pantalla_de_2026_03_16_14_58_44_3_fed6db9575",
+        "ext": ".png",
+        "mime": "image/png",
+        "path": null,
+        "width": 245,
+        "height": 141,
+        "size": 18.73,
+        "sizeInBytes": 18726,
+        "url": "https://res.cloudinary.com/dronteu5m/image/upload/v1774111680/thumbnail_Captura_de_pantalla_de_2026_03_16_14_58_44_3_fed6db9575.png",
+        "provider_metadata": {
+          "public_id": "thumbnail_Captura_de_pantalla_de_2026_03_16_14_58_44_3_fed6db9575",
+          "resource_type": "image"
+        }
+      },
+      "small": {
+        "name": "small_Captura de pantalla de 2026-03-16 14-58-44 (3).png",
+        "hash": "small_Captura_de_pantalla_de_2026_03_16_14_58_44_3_fed6db9575",
+        "ext": ".png",
+        "mime": "image/png",
+        "path": null,
+        "width": 500,
+        "height": 287,
+        "size": 53.08,
+        "sizeInBytes": 53083,
+        "url": "https://res.cloudinary.com/dronteu5m/image/upload/v1774111680/small_Captura_de_pantalla_de_2026_03_16_14_58_44_3_fed6db9575.png",
+        "provider_metadata": {
+          "public_id": "small_Captura_de_pantalla_de_2026_03_16_14_58_44_3_fed6db9575",
+          "resource_type": "image"
+        }
+      },
+      "medium": {
+        "name": "medium_Captura de pantalla de 2026-03-16 14-58-44 (3).png",
+        "hash": "medium_Captura_de_pantalla_de_2026_03_16_14_58_44_3_fed6db9575",
+        "ext": ".png",
+        "mime": "image/png",
+        "path": null,
+        "width": 750,
+        "height": 431,
+        "size": 96.38,
+        "sizeInBytes": 96380,
+        "url": "https://res.cloudinary.com/dronteu5m/image/upload/v1774111680/medium_Captura_de_pantalla_de_2026_03_16_14_58_44_3_fed6db9575.png",
+        "provider_metadata": {
+          "public_id": "medium_Captura_de_pantalla_de_2026_03_16_14_58_44_3_fed6db9575",
+          "resource_type": "image"
+        }
+      },
+      "large": {
+        "name": "large_Captura de pantalla de 2026-03-16 14-58-44 (3).png",
+        "hash": "large_Captura_de_pantalla_de_2026_03_16_14_58_44_3_fed6db9575",
+        "ext": ".png",
+        "mime": "image/png",
+        "path": null,
+        "width": 1000,
+        "height": 575,
+        "size": 148.2,
+        "sizeInBytes": 148198,
+        "url": "https://res.cloudinary.com/dronteu5m/image/upload/v1774111681/large_Captura_de_pantalla_de_2026_03_16_14_58_44_3_fed6db9575.png",
+        "provider_metadata": {
+          "public_id": "large_Captura_de_pantalla_de_2026_03_16_14_58_44_3_fed6db9575",
+          "resource_type": "image"
+        }
+      }
+    },
+    "hash": "Captura_de_pantalla_de_2026_03_16_14_58_44_3_fed6db9575",
+    "ext": ".png",
+    "mime": "image/png",
+    "size": 37.41,
+    "url": "https://res.cloudinary.com/dronteu5m/image/upload/v1774111680/Captura_de_pantalla_de_2026_03_16_14_58_44_3_fed6db9575.png",
+    "previewUrl": null,
+    "provider": "cloudinary",
+    "provider_metadata": {
+      "public_id": "Captura_de_pantalla_de_2026_03_16_14_58_44_3_fed6db9575",
+      "resource_type": "image"
+    },
+    "createdAt": "2026-03-21T16:48:01.534Z",
+    "updatedAt": "2026-03-21T16:48:01.534Z",
+    "publishedAt": "2026-03-21T16:48:01.534Z"
+  },
+  {
+    "id": 2,
+    "documentId": "y2uks4d9s8s6zwcgukbp0fuj",
+    "name": "Diseño sin título (4).png",
+    "alternativeText": null,
+    "caption": null,
+    "width": 512,
+    "height": 512,
+    "formats": {
+      "thumbnail": {
+        "name": "thumbnail_Diseño sin título (4).png",
+        "hash": "thumbnail_Diseno_sin_titulo_4_6cd86cd7d8",
+        "ext": ".png",
+        "mime": "image/png",
+        "path": null,
+        "width": 156,
+        "height": 156,
+        "size": 12.52,
+        "sizeInBytes": 12523,
+        "url": "https://res.cloudinary.com/dronteu5m/image/upload/v1774106200/thumbnail_Diseno_sin_titulo_4_6cd86cd7d8.png",
+        "provider_metadata": {
+          "public_id": "thumbnail_Diseno_sin_titulo_4_6cd86cd7d8",
+          "resource_type": "image"
+        }
+      },
+      "small": {
+        "name": "small_Diseño sin título (4).png",
+        "hash": "small_Diseno_sin_titulo_4_6cd86cd7d8",
+        "ext": ".png",
+        "mime": "image/png",
+        "path": null,
+        "width": 500,
+        "height": 500,
+        "size": 77.2,
+        "sizeInBytes": 77201,
+        "url": "https://res.cloudinary.com/dronteu5m/image/upload/v1774106200/small_Diseno_sin_titulo_4_6cd86cd7d8.png",
+        "provider_metadata": {
+          "public_id": "small_Diseno_sin_titulo_4_6cd86cd7d8",
+          "resource_type": "image"
+        }
+      }
+    },
+    "hash": "Diseno_sin_titulo_4_6cd86cd7d8",
+    "ext": ".png",
+    "mime": "image/png",
+    "size": 17.29,
+    "url": "https://res.cloudinary.com/dronteu5m/image/upload/v1774106200/Diseno_sin_titulo_4_6cd86cd7d8.png",
+    "previewUrl": null,
+    "provider": "cloudinary",
+    "provider_metadata": {
+      "public_id": "Diseno_sin_titulo_4_6cd86cd7d8",
+      "resource_type": "image"
+    },
+    "createdAt": "2026-03-21T15:16:41.179Z",
+    "updatedAt": "2026-03-21T15:16:41.179Z",
+    "publishedAt": "2026-03-21T15:16:41.179Z"
+  },
+  {
+    "id": 3,
+    "documentId": "mkfeok1tyh63lgxtdxccxx2v",
+    "name": "Diseño sin título.png",
+    "alternativeText": null,
+    "caption": null,
+    "width": 1044,
+    "height": 600,
+    "formats": {
+      "thumbnail": {
+        "name": "thumbnail_Diseño sin título.png",
+        "hash": "thumbnail_Diseno_sin_titulo_688f954018",
+        "ext": ".png",
+        "mime": "image/png",
+        "path": null,
+        "width": 245,
+        "height": 141,
+        "size": 17.73,
+        "sizeInBytes": 17729,
+        "url": "https://res.cloudinary.com/dronteu5m/image/upload/v1774111647/thumbnail_Diseno_sin_titulo_688f954018.png",
+        "provider_metadata": {
+          "public_id": "thumbnail_Diseno_sin_titulo_688f954018",
+          "resource_type": "image"
+        }
+      },
+      "small": {
+        "name": "small_Diseño sin título.png",
+        "hash": "small_Diseno_sin_titulo_688f954018",
+        "ext": ".png",
+        "mime": "image/png",
+        "path": null,
+        "width": 500,
+        "height": 287,
+        "size": 57.73,
+        "sizeInBytes": 57726,
+        "url": "https://res.cloudinary.com/dronteu5m/image/upload/v1774111647/small_Diseno_sin_titulo_688f954018.png",
+        "provider_metadata": {
+          "public_id": "small_Diseno_sin_titulo_688f954018",
+          "resource_type": "image"
+        }
+      },
+      "medium": {
+        "name": "medium_Diseño sin título.png",
+        "hash": "medium_Diseno_sin_titulo_688f954018",
+        "ext": ".png",
+        "mime": "image/png",
+        "path": null,
+        "width": 750,
+        "height": 431,
+        "size": 118.25,
+        "sizeInBytes": 118248,
+        "url": "https://res.cloudinary.com/dronteu5m/image/upload/v1774111648/medium_Diseno_sin_titulo_688f954018.png",
+        "provider_metadata": {
+          "public_id": "medium_Diseno_sin_titulo_688f954018",
+          "resource_type": "image"
+        }
+      },
+      "large": {
+        "name": "large_Diseño sin título.png",
+        "hash": "large_Diseno_sin_titulo_688f954018",
+        "ext": ".png",
+        "mime": "image/png",
+        "path": null,
+        "width": 1000,
+        "height": 575,
+        "size": 195.15,
+        "sizeInBytes": 195150,
+        "url": "https://res.cloudinary.com/dronteu5m/image/upload/v1774111648/large_Diseno_sin_titulo_688f954018.png",
+        "provider_metadata": {
+          "public_id": "large_Diseno_sin_titulo_688f954018",
+          "resource_type": "image"
+        }
+      }
+    },
+    "hash": "Diseno_sin_titulo_688f954018",
+    "ext": ".png",
+    "mime": "image/png",
+    "size": 59.78,
+    "url": "https://res.cloudinary.com/dronteu5m/image/upload/v1774111647/Diseno_sin_titulo_688f954018.png",
+    "previewUrl": null,
+    "provider": "cloudinary",
+    "provider_metadata": {
+      "public_id": "Diseno_sin_titulo_688f954018",
+      "resource_type": "image"
+    },
+    "createdAt": "2026-03-21T16:47:28.792Z",
+    "updatedAt": "2026-03-21T16:47:28.792Z",
+    "publishedAt": "2026-03-21T16:47:28.792Z"
+  }
+]
+}
