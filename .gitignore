@@ -37,3 +37,30 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
+
+# --- Seguridad: no subir secretos ni entornos con credenciales ---
+.env
+.env.*
+!.env.example
+!.env*.example
+
+# Claves, certificados y material criptográfico
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.crt
+*.cer
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+*.secret
+
+# Carpetas habituales de credenciales / herramientas locales
+secrets/
+credentials/
+.turbo
+.vercel
