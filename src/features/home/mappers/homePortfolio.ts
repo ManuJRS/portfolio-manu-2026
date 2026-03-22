@@ -5,8 +5,9 @@ import type {
   StrapiProfileHighlightBlockDto,
   StrapiSelectedWorksBlockDto,
   StrapiStackGridBlockDto,
+  StrapiSeoDto,
 } from '../types/strapi-home-portfolio.dto'
-import type { HomePortfolioPage, HomePortfolioSection } from '../types/home-portfolio.model'
+import type { HomePortfolioPage, HomePortfolioSection, SeoMeta } from '../types/home-portfolio.model'
 import { mapHeroMinimalFromStrapi } from './heroMinimal'
 import { mapProfileHighlightFromStrapi } from './profileHighlight'
 import { mapSelectedWorksFromStrapi } from './selectedWorks'
@@ -64,17 +65,36 @@ function mapDynamicBlock(block: StrapiDynamicZoneBlock): HomePortfolioSection | 
   return null
 }
 
+function mapSeoFromStrapi(dto: StrapiSeoDto | null | undefined): SeoMeta | undefined {
+  if (!dto) return undefined
+  const meta: SeoMeta = {}
+  if (dto.metaTitle != null) meta.metaTitle = dto.metaTitle
+  if (dto.metaDescription != null) meta.metaDescription = dto.metaDescription
+  if (dto.metaRobots != null) meta.metaRobots = dto.metaRobots
+  if (dto.canonicalURL != null) meta.canonicalURL = dto.canonicalURL
+  if (dto.ogTitle != null) meta.ogTitle = dto.ogTitle
+  if (dto.ogDescription != null) meta.ogDescription = dto.ogDescription
+  if (dto.ogType != null) meta.ogType = dto.ogType
+  if (dto.twitterCard != null) meta.twitterCard = dto.twitterCard
+  if (dto.twitterTitle != null) meta.twitterTitle = dto.twitterTitle
+  if (dto.twitterDescription != null) meta.twitterDescription = dto.twitterDescription
+  if (dto.structuredData != null) meta.structuredData = dto.structuredData
+  if (dto.hideFromSearchEngines != null) meta.hideFromSearchEngines = dto.hideFromSearchEngines
+  return Object.keys(meta).length ? meta : undefined
+}
+
 export function mapHomePortfolioFromStrapi(response: StrapiHomePortfolioResponse): HomePortfolioPage {
-  const sectionsRaw = response.data?.sections
-  if (!sectionsRaw?.length) {
-    return { sections: [] }
-  }
+  const raw = response.data
+  const sectionsRaw = raw?.sections
+  const seo = mapSeoFromStrapi(raw?.seo ?? raw?.Seo)
 
   const sections: HomePortfolioSection[] = []
-  for (const block of sectionsRaw) {
-    const mapped = mapDynamicBlock(block)
-    if (mapped) sections.push(mapped)
+  if (sectionsRaw?.length) {
+    for (const block of sectionsRaw) {
+      const mapped = mapDynamicBlock(block)
+      if (mapped) sections.push(mapped)
+    }
   }
 
-  return { sections }
+  return { sections, ...(seo && { seo }) }
 }

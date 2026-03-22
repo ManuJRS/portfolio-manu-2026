@@ -4,6 +4,22 @@ export type StrapiHomePortfolioResponse = {
   meta?: Record<string, unknown>
 }
 
+export type StrapiSeoDto = {
+  id?: number
+  metaTitle?: string | null
+  metaDescription?: string | null
+  metaRobots?: string | null
+  canonicalURL?: string | null
+  ogTitle?: string | null
+  ogDescription?: string | null
+  ogType?: string | null
+  twitterCard?: string | null
+  twitterTitle?: string | null
+  twitterDescription?: string | null
+  structuredData?: Record<string, unknown> | null
+  hideFromSearchEngines?: boolean
+}
+
 export type StrapiHomePortfolioData = {
   id: number
   documentId?: string
@@ -13,6 +29,9 @@ export type StrapiHomePortfolioData = {
   locale?: string
   title?: string
   sections?: StrapiDynamicZoneBlock[]
+  /** Strapi puede devolver 'seo' o 'Seo' según la configuración */
+  seo?: StrapiSeoDto | null
+  Seo?: StrapiSeoDto | null
 }
 
 export type StrapiUnknownBlockDto = {

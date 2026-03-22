@@ -6,6 +6,7 @@ export function buildHomeQuery(locale: AppLocale = 'es'): string {
     {
       locale,
       populate: {
+        Seo: true,
         sections: {
           on: {
             'components.hero-minimalf': true,
