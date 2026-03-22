@@ -31,7 +31,7 @@ defineProps<StackGridProps>()
       <div
         v-for="item in items"
         :key="item.id"
-        class="border border-white/10 bg-white/[0.01] p-4"
+        class="border border-white/10 backdrop-blur-md p-4"
       >
         <div class="flex flex-col gap-4 items-center justify-center">
           <span class="text-xs font-mono text-white flex items-center gap-3">

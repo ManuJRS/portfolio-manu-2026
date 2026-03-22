@@ -28,7 +28,7 @@ function getIconName(icon: string) {
       </div>
 
       <div
-        class="relative z-10 bg-[#161616] p-8 md:p-12 rounded-[2.5rem] shadow-2xl max-w-xl border border-white/5"
+        class="relative z-10 p-8 md:p-12 rounded-[2.5rem] shadow-2xl max-w-xl border border-white/5 backdrop-blur-md"
       >
         <h3 v-if="name" class="text-3xl font-bold text-white mb-1">{{ name }}</h3>
         <p
