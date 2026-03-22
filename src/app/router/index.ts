@@ -13,6 +13,11 @@ const router = createRouter({
       component: () => import('@/features/projects/views/ProjectDetailView.vue'),
     },
     {
+      path: '/:locale(es|en)/info',
+      name: 'info',
+      component: () => import('@/features/info/views/InfoView.vue'),
+    },
+    {
       path: '/:locale(es|en)',
       name: 'home',
       component: () => import('@/features/home/views/HomeView.vue'),
