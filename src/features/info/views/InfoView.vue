@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import type { AppLocale } from '@/features/home/types/locale'
 import { useInfoPortfolio } from '../composables/useInfoPortfolio'
+import { usePageSeo } from '@/features/home/composables/usePageSeo'
 import InfoDynamicBlockRenderer from '@/features/dynamic-blocks/InfoDynamicBlockRenderer.vue'
 
 const route = useRoute()
@@ -12,6 +13,8 @@ const locale = computed(
 )
 
 const { data, loading, error, refresh } = useInfoPortfolio(locale)
+
+usePageSeo(() => data.value?.seo)
 </script>
 
 <template>

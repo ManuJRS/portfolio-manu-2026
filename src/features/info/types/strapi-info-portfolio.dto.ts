@@ -1,3 +1,5 @@
+import type { StrapiSeoDto } from '@/features/home/types/strapi-home-portfolio.dto'
+
 /** Respuesta REST Strapi v5 (single type info-portfolio). */
 export type StrapiInfoPortfolioResponse = {
   data: StrapiInfoPortfolioData | null
@@ -14,6 +16,7 @@ export type StrapiInfoPortfolioData = {
   title?: string
   slug?: string
   sections?: StrapiInfoDynamicZoneBlock[]
+  Seo?: StrapiSeoDto | null
 }
 
 export type StrapiIntroDescriptionBlockDto = {
