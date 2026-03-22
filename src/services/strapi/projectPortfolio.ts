@@ -7,6 +7,7 @@ import { httpClient } from '@/services/http'
 
 function populateParams(): URLSearchParams {
   const params = new URLSearchParams()
+  params.set('populate[Seo]', 'true')
   params.set('populate[sections][populate]', '*')
   return params
 }

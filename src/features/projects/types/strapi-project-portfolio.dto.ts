@@ -1,3 +1,5 @@
+import type { StrapiSeoDto } from '@/features/home/types/strapi-home-portfolio.dto'
+
 /** Respuesta colección Strapi v5. */
 export type StrapiProjectPortfolioCollectionResponse = {
   data: StrapiProjectPortfolioDocument[]
@@ -26,6 +28,7 @@ export type StrapiProjectPortfolioDocument = {
   title?: string
   slug?: string
   sections?: StrapiProjectDynamicZoneBlock[]
+  Seo?: StrapiSeoDto | null
 }
 
 export type StrapiProjectUnknownBlockDto = {

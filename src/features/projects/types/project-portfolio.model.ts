@@ -1,3 +1,4 @@
+import type { SeoMeta } from '@/features/home/types/home-portfolio.model'
 import type { MediaContentSplitProps } from './media-content-split.model'
 import type { ProjectHeroDarkProps } from './project-hero-dark.model'
 import type { ProjectTechnicalBreakdownProps } from './project-technical-breakdown.model'
@@ -30,4 +31,5 @@ export type ProjectPortfolioPage = {
   slug?: string
   title?: string
   sections: ProjectPortfolioSection[]
+  seo?: SeoMeta
 }

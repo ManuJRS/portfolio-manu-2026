@@ -1,3 +1,5 @@
+import type { StrapiSeoDto } from '@/features/home/types/strapi-home-portfolio.dto'
+import type { SeoMeta } from '@/features/home/types/home-portfolio.model'
 import type {
   StrapiProjectDynamicZoneBlock,
   StrapiProjectHeroDarkBlockDto,
@@ -68,8 +70,28 @@ function mapSection(block: StrapiProjectDynamicZoneBlock): ProjectPortfolioSecti
   return null
 }
 
+function mapSeoFromStrapi(dto: StrapiSeoDto | null | undefined): SeoMeta | undefined {
+  if (!dto) return undefined
+  const meta: SeoMeta = {}
+  if (dto.metaTitle != null) meta.metaTitle = dto.metaTitle
+  if (dto.metaDescription != null) meta.metaDescription = dto.metaDescription
+  if (dto.metaRobots != null) meta.metaRobots = dto.metaRobots
+  if (dto.canonicalURL != null) meta.canonicalURL = dto.canonicalURL
+  if (dto.ogTitle != null) meta.ogTitle = dto.ogTitle
+  if (dto.ogDescription != null) meta.ogDescription = dto.ogDescription
+  if (dto.ogType != null) meta.ogType = dto.ogType
+  if (dto.twitterCard != null) meta.twitterCard = dto.twitterCard
+  if (dto.twitterTitle != null) meta.twitterTitle = dto.twitterTitle
+  if (dto.twitterDescription != null) meta.twitterDescription = dto.twitterDescription
+  if (dto.structuredData != null) meta.structuredData = dto.structuredData
+  if (dto.hideFromSearchEngines != null) meta.hideFromSearchEngines = dto.hideFromSearchEngines
+  return Object.keys(meta).length ? meta : undefined
+}
+
 export function mapProjectDocumentToPage(doc: StrapiProjectPortfolioDocument): ProjectPortfolioPage {
   const sectionsRaw = doc.sections
+  const seo = mapSeoFromStrapi(doc.Seo)
+
   const sections: ProjectPortfolioSection[] = []
   if (sectionsRaw?.length) {
     for (const block of sectionsRaw) {
@@ -83,5 +105,6 @@ export function mapProjectDocumentToPage(doc: StrapiProjectPortfolioDocument): P
     slug: doc.slug,
     title: doc.title,
     sections,
+    ...(seo && { seo }),
   }
 }

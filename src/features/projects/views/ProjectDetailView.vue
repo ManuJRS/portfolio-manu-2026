@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import type { AppLocale } from '@/features/home/types/locale'
+import { usePageSeo } from '@/features/home/composables/usePageSeo'
 import { useProjectPortfolio } from '../composables/useProjectPortfolio'
 import ProjectBlockRenderer from '../components/ProjectBlockRenderer.vue'
 
@@ -11,6 +12,8 @@ const locale = computed(() => route.params.locale as AppLocale)
 const slug = computed(() => String(route.params.slug ?? ''))
 
 const { data, loading, error, refresh } = useProjectPortfolio(locale, slug)
+
+usePageSeo(() => data.value?.seo)
 </script>
 
 <template>
