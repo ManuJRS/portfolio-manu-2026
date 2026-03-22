@@ -1,5 +1,6 @@
 import type { HeroMinimalProps } from './hero-minimal.model'
 import type { ProfileHighlightProps } from './profile-highlight.model'
+import type { SelectedWorksProps } from './selected-works.model'
 import type { StackGridProps } from './stack-grid.model'
 
 export type HomePortfolioSection =
@@ -17,6 +18,11 @@ export type HomePortfolioSection =
       component: 'components.stack-grid'
       id: string
       props: StackGridProps
+    }
+  | {
+      component: 'components.selected-works'
+      id: string
+      props: SelectedWorksProps
     }
 
 export type HomePortfolioPage = {

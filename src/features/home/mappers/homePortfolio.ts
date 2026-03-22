@@ -3,11 +3,13 @@ import type {
   StrapiHeroMinimalBlockDto,
   StrapiHomePortfolioResponse,
   StrapiProfileHighlightBlockDto,
+  StrapiSelectedWorksBlockDto,
   StrapiStackGridBlockDto,
 } from '../types/strapi-home-portfolio.dto'
 import type { HomePortfolioPage, HomePortfolioSection } from '../types/home-portfolio.model'
 import { mapHeroMinimalFromStrapi } from './heroMinimal'
 import { mapProfileHighlightFromStrapi } from './profileHighlight'
+import { mapSelectedWorksFromStrapi } from './selectedWorks'
 import { mapStackGridFromStrapi } from './stackGrid'
 
 function isHeroMinimalBlock(block: StrapiDynamicZoneBlock): block is StrapiHeroMinimalBlockDto {
@@ -20,11 +22,24 @@ function isProfileHighlightBlock(
   return block.__component === 'components.profile-highlight'
 }
 
+function isSelectedWorksBlock(
+  block: StrapiDynamicZoneBlock,
+): block is StrapiSelectedWorksBlockDto {
+  return block.__component === 'components.selected-works'
+}
+
 function isStackGridBlock(block: StrapiDynamicZoneBlock): block is StrapiStackGridBlockDto {
   return block.__component === 'components.stack-grid'
 }
 
 function mapDynamicBlock(block: StrapiDynamicZoneBlock): HomePortfolioSection | null {
+  if (isSelectedWorksBlock(block) && block.isVisible !== false) {
+    return {
+      component: 'components.selected-works',
+      id: `components.selected-works-${block.id}`,
+      props: mapSelectedWorksFromStrapi(block),
+    }
+  }
   if (isStackGridBlock(block)) {
     return {
       component: 'components.stack-grid',

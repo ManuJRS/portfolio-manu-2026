@@ -1,6 +1,7 @@
 import type { Component } from 'vue'
 import HeroMinimal from '@/features/home/components/HeroMinimal.vue'
 import ProfileHighlight from '@/features/home/components/ProfileHighlight.vue'
+import SelectedWorks from '@/features/home/components/SelectedWorks.vue'
 import StackGrid from '@/features/home/components/StackGrid.vue'
 
 /**
@@ -10,6 +11,7 @@ import StackGrid from '@/features/home/components/StackGrid.vue'
 export const homeBlockRegistry: Record<string, Component> = {
   'components.hero-minimalf': HeroMinimal,
   'components.profile-highlight': ProfileHighlight,
+  'components.selected-works': SelectedWorks,
   'components.stack-grid': StackGrid,
 }
 

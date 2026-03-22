@@ -78,8 +78,31 @@ export type StrapiStackGridBlockDto = {
   item?: StrapiStackGridItemDto[] | null
 }
 
+export type StrapiSelectedWorkDto = {
+  id: number
+  documentId?: string
+  title?: string
+  slug?: string
+  projectTag?: string | null
+  shortDescription?: string | null
+  descriptionProyect?: string | null
+  imgPreview?: StrapiImageDto | { data?: StrapiImageDto | StrapiImageDto[] } | null
+}
+
+export type StrapiSelectedWorksBlockDto = {
+  __component: 'components.selected-works'
+  id: number
+  isVisible?: boolean
+  title?: string | null
+  description?: string | null
+  showFilters?: boolean
+  defaultFilter?: string | null
+  selectedWorks?: StrapiSelectedWorkDto[] | null
+}
+
 export type StrapiDynamicZoneBlock =
   | StrapiHeroMinimalBlockDto
   | StrapiProfileHighlightBlockDto
   | StrapiStackGridBlockDto
+  | StrapiSelectedWorksBlockDto
   | StrapiUnknownBlockDto
