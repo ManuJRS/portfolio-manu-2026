@@ -1,0 +1,43 @@
+import qs from 'qs'
+import type { AppLocale } from '@/features/home/types/locale'
+
+/**
+ * Construye el query de populate para home-portfolio.
+ * Usa estrategia detallada con "on" (Strapi v5): cada componente debe listarse.
+ * - Componentes simples: populate: '*' o true
+ * - selected-works: populate anidado para imgPreview (evita error "Invalid key related")
+ */
+export function buildHomeQuery(locale: AppLocale = 'es'): string {
+  return qs.stringify(
+    {
+      locale,
+      populate: {
+        sections: {
+          on: {
+            'components.hero-minimalf': true,
+            'components.profile-highlight': {
+              populate: ['image', 'socialLinks'],
+            },
+            'components.stack-grid': {
+              populate: ['item'],
+            },
+            'components.project-hero-dark': true,
+            'components.media-content-split': true,
+            'components.project-text-media': true,
+            'components.project-technical-breakdown': true,
+            'components.selected-works': {
+              populate: {
+                selectedWorks: {
+                  populate: {
+                    imgPreview: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    { encodeValuesOnly: true }
+  )
+}
