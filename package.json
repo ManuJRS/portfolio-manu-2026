@@ -17,6 +17,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.2.2",
     "@vueuse/core": "^14.2.1",
+    "@vueuse/head": "^2.0.0",
     "clsx": "^2.1.1",
     "lucide-vue-next": "^0.577.0",
     "pinia": "^3.0.4",
