@@ -21,7 +21,7 @@ const labels = computed(() => {
 </script>
 
 <template>
-  <footer class="max-w-7xl mx-auto w-full flex items-end justify-between md:gap-12 gap-6">
+  <footer class="max-w-7xl mx-auto w-full flex items-end justify-between md:gap-12 gap-6 px-4">
     <div class="flex flex-col flex-grow min-w-0">
       <div class="flex justify-between items-end">
         <h4 class="font-label text-xs tracking-[0.2em] text-outline uppercase">
