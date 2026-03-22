@@ -43,7 +43,7 @@ function getIconName(icon: string) {
 
       <div class="flex flex-col mb-20">
         <h1
-          class="md:text-7xl text-6xl md:text-[14rem] font-bold uppercase ultra-tight text-white mb-4 md:mb-10"
+          class="md:text-7xl text-5xl md:text-[14rem] font-bold uppercase ultra-tight text-white mb-4 md:mb-10"
         >
           Front — End
         </h1>
