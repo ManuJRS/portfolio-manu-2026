@@ -19,7 +19,6 @@ export function mapProjectHeroDarkFromStrapi(dto: StrapiProjectHeroDarkBlockDto)
   const { line1, line2 } = rawTitle ? splitTitle(rawTitle) : { line1: '', line2: '' }
 
   return {
-    projectCode: dto.projectCode ?? undefined,
     titleLine1: line1 || undefined,
     titleLine2: line2 || undefined,
     description: dto.description ?? undefined,
