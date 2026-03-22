@@ -1,10 +1,24 @@
 import type { StrapiProfileHighlightBlockDto } from '../types/strapi-home-portfolio.dto'
 import type { ProfileHighlightProps } from '../types/profile-highlight.model'
 
+type MediaLike = { url?: string; formats?: { small?: { url?: string } } }
+
+function getUrlFromMedia(m: MediaLike | null | undefined): string | undefined {
+  if (!m) return undefined
+  return m.formats?.small?.url ?? m.url
+}
+
 function resolveImageUrl(image: StrapiProfileHighlightBlockDto['image']): string | undefined {
-  const first = image?.[0]
-  if (!first) return undefined
-  return first.formats?.small?.url ?? first.url
+  if (!image) return undefined
+  // Strapi v5: { data: { url } } o { data: [{ url }] }
+  const wrapped = image as { data?: MediaLike | MediaLike[] }
+  if (wrapped.data) {
+    const first = Array.isArray(wrapped.data) ? wrapped.data[0] : wrapped.data
+    return getUrlFromMedia(first)
+  }
+  // Strapi v4: array directo [{ url, formats }]
+  const arr = image as MediaLike[]
+  return getUrlFromMedia(arr[0])
 }
 
 export function mapProfileHighlightFromStrapi(
