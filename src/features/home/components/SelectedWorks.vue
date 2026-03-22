@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useMediaQuery } from '@vueuse/core'
 import type { SelectedWorksProps } from '../types/selected-works.model'
 
 const props = withDefaults(
@@ -20,13 +21,46 @@ const locale = computed(
   () => (route.params.locale as string) || 'es',
 )
 
+const isDesktop = useMediaQuery('(min-width: 768px)')
+const pageSize = computed(() => (isDesktop.value ? 6 : 3))
+
+const visibleCount = ref(3)
+
+watch(
+  pageSize,
+  (n) => {
+    visibleCount.value = Math.max(visibleCount.value, n)
+  },
+  { immediate: true },
+)
+
+watch(activeFilter, () => {
+  visibleCount.value = pageSize.value
+})
+
 const filteredWorks = computed(() => {
   if (activeFilter.value === 'all') return props.works
   return props.works.filter((w) => w.projectTag === activeFilter.value)
 })
 
+const displayedWorks = computed(() =>
+  filteredWorks.value.slice(0, visibleCount.value),
+)
+
+const hasMore = computed(
+  () => displayedWorks.value.length < filteredWorks.value.length,
+)
+
+const seeMoreLabel = computed(() =>
+  locale.value === 'en' ? 'See More' : 'Ver Mas',
+)
+
 function setFilter(tag: string) {
   activeFilter.value = tag
+}
+
+function loadMore() {
+  visibleCount.value += 3
 }
 
 function toProject(slug: string) {
@@ -88,7 +122,7 @@ function toProject(slug: string) {
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 w-full">
       <RouterLink
-        v-for="(work, index) in filteredWorks"
+        v-for="(work, index) in displayedWorks"
         :key="work.id"
         :to="toProject(work.slug)"
         class="project-card group block"
@@ -133,5 +167,14 @@ function toProject(slug: string) {
         </div>
       </RouterLink>
     </div>
+
+    <button
+      v-if="hasMore"
+      type="button"
+      class="mt-16 px-10 py-4 text-[10px] uppercase tracking-[0.25em] font-bold text-white border border-white/20 rounded-full hover:bg-white hover:text-black transition-colors hover:cursor-pointer"
+      @click="loadMore"
+    >
+      {{ seeMoreLabel }}
+    </button>
   </section>
 </template>
