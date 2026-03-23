@@ -84,7 +84,7 @@ defineProps<ProjectTechnicalBreakdownProps>()
         <img
           :src="img.url"
           :alt="img.alt"
-          class="h-full w-full object-cover opacity-80 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0"
+          class="h-full w-full object-cover transition-all duration-500 hover:opacity-100 hover:grayscale-0"
         />
       </div>
     </div>

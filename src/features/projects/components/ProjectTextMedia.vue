@@ -49,18 +49,18 @@ const textColClass = computed(() =>
       <div
         :class="[
           mediaColClass,
-          'aspect-video bg-surface-container-high relative overflow-hidden group',
+          'aspect-video relative overflow-hidden group',
         ]"
       >
         <img
           v-if="mediaUrl && (mediaKind === 'image' || !mediaKind)"
           :alt="mediaAlt ?? ''"
-          class="w-full h-full object-cover opacity-60 grayscale group-hover:scale-105 transition-transform duration-700"
+          class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
           :src="mediaUrl"
         />
         <video
           v-else-if="mediaUrl && mediaKind === 'video'"
-          class="w-full h-full object-cover opacity-60 grayscale group-hover:scale-105 transition-transform duration-700"
+          class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
           :src="mediaUrl"
           playsinline
           controls
