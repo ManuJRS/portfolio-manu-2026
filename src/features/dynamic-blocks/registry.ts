@@ -1,4 +1,5 @@
 import type { Component } from 'vue'
+import Calification from '@/features/home/components/Calification.vue'
 import HeroMinimal from '@/features/home/components/HeroMinimal.vue'
 import ProfileHighlight from '@/features/home/components/ProfileHighlight.vue'
 import SelectedWorks from '@/features/home/components/SelectedWorks.vue'
@@ -13,6 +14,7 @@ export const homeBlockRegistry: Record<string, Component> = {
   'components.profile-highlight': ProfileHighlight,
   'components.selected-works': SelectedWorks,
   'components.stack-grid': StackGrid,
+  'components.calification': Calification,
 }
 
 export function resolveHomeBlock(component: string): Component | undefined {
