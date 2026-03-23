@@ -1,5 +1,6 @@
 import type { StrapiProjectHeroDarkBlockDto } from '../types/strapi-project-portfolio.dto'
 import type { ProjectHeroDarkProps } from '../types/project-hero-dark.model'
+import { isVideoAsset } from '../utils/resolveProjectMedia'
 
 function splitTitle(title: string): { line1: string; line2: string } {
   const parts = title.trim().split(/\s+/)
@@ -9,9 +10,42 @@ function splitTitle(title: string): { line1: string; line2: string } {
   return { line1: parts[0]!, line2: parts.slice(1).join(' ') }
 }
 
-function resolveImageUrl(image: StrapiProjectHeroDarkBlockDto['featuredImage']): string | undefined {
-  if (!image) return undefined
-  return image.formats?.small?.url ?? image.url
+function resolveImageUrl(image: NonNullable<StrapiProjectHeroDarkBlockDto['featuredImage']>): string | undefined {
+  return (
+    image.formats?.large?.url ??
+    image.formats?.medium?.url ??
+    image.url
+  )
+}
+
+function resolveHeroMedia(dto: StrapiProjectHeroDarkBlockDto): Pick<
+  ProjectHeroDarkProps,
+  'mediaUrl' | 'mediaKind' | 'mediaAlt'
+> {
+  if (dto.featuredVideo) {
+    const v = dto.featuredVideo
+    return {
+      mediaUrl: v.url,
+      mediaKind: 'video',
+      mediaAlt: v.alternativeText ?? undefined,
+    }
+  }
+  if (dto.featuredImage) {
+    const img = dto.featuredImage
+    if (isVideoAsset(img)) {
+      return {
+        mediaUrl: img.url,
+        mediaKind: 'video',
+        mediaAlt: img.alternativeText ?? undefined,
+      }
+    }
+    return {
+      mediaUrl: resolveImageUrl(img),
+      mediaKind: 'image',
+      mediaAlt: img.alternativeText ?? undefined,
+    }
+  }
+  return {}
 }
 
 export function mapProjectHeroDarkFromStrapi(dto: StrapiProjectHeroDarkBlockDto): ProjectHeroDarkProps {
@@ -22,8 +56,9 @@ export function mapProjectHeroDarkFromStrapi(dto: StrapiProjectHeroDarkBlockDto)
     titleLine1: line1 || undefined,
     titleLine2: line2 || undefined,
     description: dto.description ?? undefined,
-    imageUrl: resolveImageUrl(dto.featuredImage),
-    imageAlt: dto.featuredImage?.alternativeText ?? undefined,
+    ...resolveHeroMedia(dto),
     technologies: dto.technologies?.map((t) => t.label) ?? undefined,
+    urlText: dto.urlText?.trim() || undefined,
+    urlProject: dto.urlProject?.trim() || undefined,
   }
 }

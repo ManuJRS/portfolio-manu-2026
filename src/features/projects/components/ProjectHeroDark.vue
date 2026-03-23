@@ -23,6 +23,10 @@ const homeTo = computed(() => ({
   name: 'home' as const,
   params: { locale: locale.value },
 }))
+
+const showProjectLink = computed(
+  () => Boolean(props.urlProject?.trim() && props.urlText?.trim()),
+)
 </script>
 
 <template>
@@ -80,14 +84,37 @@ const homeTo = computed(() => ({
             {{ tech }}
           </span>
         </div>
+        <a
+          v-if="showProjectLink"
+          :href="urlProject"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex w-fit items-center gap-2 text-[10px] uppercase tracking-[0.2em] font-bold text-white border-b border-white/20 pb-1 hover:border-white transition-all"
+        >
+          {{ urlText }}
+          <span class="material-symbols-outlined text-xs" aria-hidden="true">arrow_outward</span>
+        </a>
       </div>
 
-      <div v-if="imageUrl" class="md:col-span-8">
-        <div class="w-full aspect-[16/7] bg-surface-container-lowest overflow-hidden">
+      <div v-if="mediaUrl" class="md:col-span-8">
+        <div class="w-full aspect-[3/2] overflow-hidden">
           <img
-            class="w-full h-full object-cover opacity-80 mix-blend-luminosity"
-            :src="imageUrl"
-            :alt="imageAlt ?? ''"
+            v-if="mediaKind === 'image' || !mediaKind"
+            class="w-full h-full object-contain"
+            :src="mediaUrl"
+            :alt="mediaAlt ?? ''"
+          />
+          <video
+            v-else-if="mediaKind === 'video'"
+            class="w-full h-full object-cover"
+            :src="mediaUrl"
+            autoplay
+            muted
+            loop
+            playsinline
+            webkit-playsinline
+            preload="auto"
+            :aria-label="mediaAlt || undefined"
           />
         </div>
       </div>

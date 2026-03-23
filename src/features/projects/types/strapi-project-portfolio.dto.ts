@@ -64,7 +64,11 @@ export type StrapiProjectHeroDarkBlockDto = {
   title?: string | null
   description?: string | null
   featuredImage?: StrapiMediaDto | null
+  /** Opcional: vídeo dedicado; si existe, tiene prioridad sobre la imagen */
+  featuredVideo?: StrapiMediaDto | null
   technologies?: StrapiProjectTechnologyDto[] | null
+  urlText?: string | null
+  urlProject?: string | null
 }
 
 export type StrapiMediaContentSplitItemDto = {

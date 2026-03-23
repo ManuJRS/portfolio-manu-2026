@@ -16,7 +16,9 @@ export function buildHomeQuery(locale: AppLocale = 'es'): string {
             'components.stack-grid': {
               populate: ['item'],
             },
-            'components.project-hero-dark': true,
+            'components.project-hero-dark': {
+              populate: ['featuredImage'],
+            },
             'components.media-content-split': true,
             'components.project-text-media': true,
             'components.project-technical-breakdown': true,
