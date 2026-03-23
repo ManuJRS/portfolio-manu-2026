@@ -1,3 +1,4 @@
+import type { CalificationProps } from './calification.model'
 import type { HeroMinimalProps } from './hero-minimal.model'
 import type { ProfileHighlightProps } from './profile-highlight.model'
 import type { SelectedWorksProps } from './selected-works.model'
@@ -38,6 +39,11 @@ export type HomePortfolioSection =
       component: 'components.selected-works'
       id: string
       props: SelectedWorksProps
+    }
+  | {
+      component: 'components.calification'
+      id: string
+      props: CalificationProps
     }
 
 export type HomePortfolioPage = {

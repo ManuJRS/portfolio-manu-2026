@@ -119,9 +119,36 @@ export type StrapiSelectedWorksBlockDto = {
   selectedWorks?: StrapiSelectedWorkDto[] | null
 }
 
+/** Tag interno de un comentario (componente repetible en Strapi). */
+export type StrapiCalificationTagItemDto = {
+  id: number
+  TagText?: string | null
+}
+
+/** Ítem del repetible Coment dentro de components.calification. */
+export type StrapiCalificationCommentDto = {
+  id: number
+  Position?: string | null
+  Calification?: number | null
+  /** Nombre de la persona que recomienda */
+  Title?: string | null
+  Description?: string | null
+  TimeLapse?: string | null
+  Tag?: StrapiCalificationTagItemDto[] | null
+}
+
+export type StrapiCalificationBlockDto = {
+  __component: 'components.calification'
+  id: number
+  Tag?: string | null
+  Title?: string | null
+  Coment?: StrapiCalificationCommentDto[] | null
+}
+
 export type StrapiDynamicZoneBlock =
   | StrapiHeroMinimalBlockDto
   | StrapiProfileHighlightBlockDto
   | StrapiStackGridBlockDto
   | StrapiSelectedWorksBlockDto
+  | StrapiCalificationBlockDto
   | StrapiUnknownBlockDto

@@ -31,6 +31,15 @@ export function buildHomeQuery(locale: AppLocale = 'es'): string {
                 },
               },
             },
+            'components.calification': {
+              populate: {
+                Coment: {
+                  populate: {
+                    Tag: true,
+                  },
+                },
+              },
+            },
           },
         },
       },

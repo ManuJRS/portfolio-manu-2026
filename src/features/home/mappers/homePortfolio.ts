@@ -1,4 +1,5 @@
 import type {
+  StrapiCalificationBlockDto,
   StrapiDynamicZoneBlock,
   StrapiHeroMinimalBlockDto,
   StrapiHomePortfolioResponse,
@@ -8,6 +9,7 @@ import type {
   StrapiSeoDto,
 } from '../types/strapi-home-portfolio.dto'
 import type { HomePortfolioPage, HomePortfolioSection, SeoMeta } from '../types/home-portfolio.model'
+import { mapCalificationFromStrapi } from './calification'
 import { mapHeroMinimalFromStrapi } from './heroMinimal'
 import { mapProfileHighlightFromStrapi } from './profileHighlight'
 import { mapSelectedWorksFromStrapi } from './selectedWorks'
@@ -31,6 +33,10 @@ function isSelectedWorksBlock(
 
 function isStackGridBlock(block: StrapiDynamicZoneBlock): block is StrapiStackGridBlockDto {
   return block.__component === 'components.stack-grid'
+}
+
+function isCalificationBlock(block: StrapiDynamicZoneBlock): block is StrapiCalificationBlockDto {
+  return block.__component === 'components.calification'
 }
 
 function mapDynamicBlock(block: StrapiDynamicZoneBlock): HomePortfolioSection | null {
@@ -60,6 +66,13 @@ function mapDynamicBlock(block: StrapiDynamicZoneBlock): HomePortfolioSection | 
       component: 'components.hero-minimalf',
       id: `components.hero-minimalf-${block.id}`,
       props: mapHeroMinimalFromStrapi(block),
+    }
+  }
+  if (isCalificationBlock(block)) {
+    return {
+      component: 'components.calification',
+      id: `components.calification-${block.id}`,
+      props: mapCalificationFromStrapi(block),
     }
   }
   return null
