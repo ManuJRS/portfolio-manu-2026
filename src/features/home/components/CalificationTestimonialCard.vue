@@ -22,7 +22,7 @@ function formatRating(rating: number): string {
 
 <template>
   <div
-    class="testimonial-card flex-1 min-w-0 border border-white/5 backdrop-blur-md rounded-[2.5rem] shadow-2xl p-8 flex flex-col"
+    class="testimonial-card h-full w-full flex-1 min-w-0 border border-white/5 backdrop-blur-md rounded-[2.5rem] shadow-2xl p-8 flex flex-col"
   >
     <div class="flex justify-between items-start mb-6">
       <div class="flex flex-col">

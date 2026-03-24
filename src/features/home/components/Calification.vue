@@ -6,48 +6,47 @@ import TitleEffect from '@/shared/ui/TitleEffect.vue'
 
 const props = defineProps<CalificationProps>()
 
-const DESKTOP_PAGE_SIZE = 3
+const DESKTOP_VISIBLE_CARDS = 3
 
 const commentsList = computed(() => props.comments ?? [])
 
-const desktopPageCount = computed(() => {
+const desktopStepCount = computed(() => {
   const n = commentsList.value.length
-  if (n === 0) return 0
-  return Math.ceil(n / DESKTOP_PAGE_SIZE)
+  if (n <= DESKTOP_VISIBLE_CARDS) return 1
+  return n - DESKTOP_VISIBLE_CARDS + 1
 })
 
-const currentDesktopPage = ref(0)
+const currentDesktopStep = ref(0)
 
 watch(
   () => commentsList.value.length,
   () => {
-    const max = Math.max(0, desktopPageCount.value - 1)
-    if (currentDesktopPage.value > max) currentDesktopPage.value = max
+    const max = Math.max(0, desktopStepCount.value - 1)
+    if (currentDesktopStep.value > max) currentDesktopStep.value = max
   },
 )
 
-const desktopPageComments = computed(() => {
-  const start = currentDesktopPage.value * DESKTOP_PAGE_SIZE
-  return commentsList.value.slice(start, start + DESKTOP_PAGE_SIZE)
-})
-
-const canPrevDesktop = computed(() => currentDesktopPage.value > 0)
+const canPrevDesktop = computed(() => currentDesktopStep.value > 0)
 const canNextDesktop = computed(
-  () => currentDesktopPage.value < desktopPageCount.value - 1,
+  () => currentDesktopStep.value < desktopStepCount.value - 1,
 )
 
 function goPrevDesktop() {
-  if (canPrevDesktop.value) currentDesktopPage.value -= 1
+  if (canPrevDesktop.value) currentDesktopStep.value -= 1
 }
 
 function goNextDesktop() {
-  if (canNextDesktop.value) currentDesktopPage.value += 1
+  if (canNextDesktop.value) currentDesktopStep.value += 1
 }
 
-function goToDesktopPage(index: number) {
-  const max = Math.max(0, desktopPageCount.value - 1)
-  currentDesktopPage.value = Math.min(Math.max(0, index), max)
+function goToDesktopStep(index: number) {
+  const max = Math.max(0, desktopStepCount.value - 1)
+  currentDesktopStep.value = Math.min(Math.max(0, index), max)
 }
+
+const desktopTrackTransform = computed(
+  () => `translateX(-${(currentDesktopStep.value * 100) / DESKTOP_VISIBLE_CARDS}%)`,
+)
 
 /** Carrusel horizontal móvil: contenedor con scroll */
 const mobileScrollerRef = ref<HTMLElement | null>(null)
@@ -139,12 +138,12 @@ onMounted(() => {
       class="md:hidden w-full overflow-x-auto hide-scrollbar snap-x snap-mandatory pb-8"
       @scroll.passive="onMobileScroll"
     >
-      <div class="flex w-max min-w-full gap-6">
+      <div class="flex w-max min-w-full items-stretch gap-6">
         <div
           v-for="comment in commentsList"
           :key="comment.id"
           data-calification-slide
-          class="w-[min(85vw,22rem)] shrink-0 snap-center"
+          class="flex w-[min(85vw,22rem)] shrink-0 snap-center"
         >
           <CalificationTestimonialCard :comment="comment" />
         </div>
@@ -167,12 +166,19 @@ onMounted(() => {
           <span class="material-symbols-outlined text-2xl" aria-hidden="true">chevron_left</span>
         </button>
 
-        <div class="min-w-0 flex-1 grid grid-cols-3 gap-6 items-stretch">
-          <CalificationTestimonialCard
-            v-for="comment in desktopPageComments"
-            :key="comment.id"
-            :comment="comment"
-          />
+        <div class="min-w-0 flex-1 overflow-hidden">
+          <div
+            class="flex items-stretch gap-6 transition-transform duration-500 ease-in-out will-change-transform"
+            :style="{ transform: desktopTrackTransform }"
+          >
+            <div
+              v-for="comment in commentsList"
+              :key="comment.id"
+              class="flex min-w-0 shrink-0 basis-[calc((100%-3rem)/3)]"
+            >
+              <CalificationTestimonialCard :comment="comment" />
+            </div>
+          </div>
         </div>
 
         <button
@@ -186,26 +192,26 @@ onMounted(() => {
         </button>
       </div>
 
-      <!-- Puntos de página (solo si hay más de una página) -->
+      <!-- Puntos de navegación (solo si hay más de una posición) -->
       <div
-        v-if="desktopPageCount > 1"
+        v-if="desktopStepCount > 1"
         class="flex justify-center gap-2"
         role="tablist"
-        aria-label="Página del carrusel"
+        aria-label="Posición del carrusel"
       >
         <button
-          v-for="p in desktopPageCount"
-          :key="p"
+          v-for="step in desktopStepCount"
+          :key="step"
           type="button"
           class="h-2 rounded-full transition-all"
           :class="
-            p - 1 === currentDesktopPage
+            step - 1 === currentDesktopStep
               ? 'w-8 bg-white'
               : 'w-2 bg-white/25 hover:bg-white/40'
           "
-          :aria-label="`Ir a página ${p}`"
-          :aria-current="p - 1 === currentDesktopPage ? 'true' : undefined"
-          @click="goToDesktopPage(p - 1)"
+          :aria-label="`Ir a posición ${step}`"
+          :aria-current="step - 1 === currentDesktopStep ? 'true' : undefined"
+          @click="goToDesktopStep(step - 1)"
         />
       </div>
     </div>
