@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { StackGridProps } from '../types/stack-grid.model'
+import TitleEffect from '@/shared/ui/TitleEffect.vue'
 
 defineProps<StackGridProps>()
 </script>
@@ -14,12 +15,14 @@ defineProps<StackGridProps>()
         >
           {{ sectionLabel }}
         </span>
-        <h2
+        <TitleEffect block-color="#ffffff" class="text-4xl font-bold text-white">
+          <h2
           v-if="title"
           class="text-3xl font-bold tracking-[0.1em] uppercase text-white"
         >
           {{ title }}
         </h2>
+        </TitleEffect>
       </div>
       <div class="w-full h-px bg-white/10" />
     </div>

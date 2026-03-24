@@ -3,6 +3,7 @@ import { ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useMediaQuery } from '@vueuse/core'
 import type { SelectedWorksProps } from '../types/selected-works.model'
+import TitleEffect from '@/shared/ui/TitleEffect.vue'
 
 const props = withDefaults(
   defineProps<SelectedWorksProps>(),
@@ -75,12 +76,14 @@ function toProject(slug: string) {
     >
       <div>
         <div class="flex items-baseline gap-3 flex-wrap mb-4">
-          <h2
-            class="text-4xl md:text-7xl font-bold tracking-tighter uppercase text-white"
+          <TitleEffect block-color="#ffffff" class="text-4xl font-bold text-white">
+            <h2
+            class="text-3xl md:text-3xl font-bold tracking-tighter uppercase text-white"
           >
             <template v-if="title">{{ title }}</template>
             <template v-else>Selected<br />Works</template>
           </h2>
+          </TitleEffect>
           <span class="text-[18px] font-mono text-white/30 uppercase tracking-widest shrink-0">
             /{{ filteredWorks.length }}
           </span>

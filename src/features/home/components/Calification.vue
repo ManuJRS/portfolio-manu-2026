@@ -2,6 +2,7 @@
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import type { CalificationProps } from '../types/calification.model'
 import CalificationTestimonialCard from './CalificationTestimonialCard.vue'
+import TitleEffect from '@/shared/ui/TitleEffect.vue'
 
 const props = defineProps<CalificationProps>()
 
@@ -116,12 +117,13 @@ onMounted(() => {
           {{ sectionTag }}
         </span>
         <div class="flex items-baseline gap-3 flex-wrap min-w-0">
-          <h2
+          <TitleEffect
             v-if="title"
+            block-color="#ffffff"
             class="text-3xl font-bold tracking-[0.1em] uppercase text-white"
           >
-            {{ title }}
-          </h2>
+            <h2 class="inline">{{ title }}</h2>
+          </TitleEffect>
           <span class="text-[18px] font-mono text-white/30 uppercase tracking-widest shrink-0">
             /{{ commentsList.length }}
           </span>

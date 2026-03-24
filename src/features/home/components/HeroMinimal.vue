@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { HeroMinimalProps } from '../types/hero-minimal.model'
+import TextEffect from '@/shared/ui/TextEffect.vue'
 
 defineProps<HeroMinimalProps>()
 
@@ -19,10 +20,24 @@ function getIconName(icon: string) {
   <section class="w-full flex flex-col px-6 py-20">
     <div class="flex justify-between items-start mb-24">
       <div class="text-[10px] uppercase tracking-[0.3em] font-bold text-on-surface-variant">
-        {{ eyebrowLeft }}
+        <TextEffect
+          v-if="eyebrowLeft"
+          :text="eyebrowLeft"
+          class="text-on-surface-variant"
+          :in-view="true"
+          :speed="25"
+        />
+        <template v-else>{{ eyebrowLeft }}</template>
       </div>
       <div class="text-[10px] uppercase tracking-[0.3em] font-bold text-on-surface-variant text-right">
-        {{ eyebrowRight }}
+        <TextEffect
+          v-if="eyebrowRight"
+          :text="eyebrowRight"
+          class="text-on-surface-variant"
+          :in-view="true"
+          :speed="25"
+        />
+        <template v-else>{{ eyebrowRight }}</template>
       </div>
     </div>
 
@@ -80,7 +95,14 @@ function getIconName(icon: string) {
 
         <div v-if="scrollText" class="flex flex-col items-end">
           <span class="material-symbols-outlined text-4xl mb-2 animate-bounce">arrow_downward</span>
-          <span class="text-[10px] uppercase tracking-[0.3em] font-medium">{{ scrollText }}</span>
+          <TextEffect
+            v-if="scrollText"
+            :text="scrollText"
+            class="text-on-surface-variant"
+            :in-view="true"
+            :speed="25"
+          />
+          <template v-else>{{ scrollText }}</template>
         </div>
       </div>
     </div>

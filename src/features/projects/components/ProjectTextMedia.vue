@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { ProjectTextMediaProps } from '../types/project-text-media.model'
+import TextEffect from '@/shared/ui/TextEffect.vue'
 
 const props = withDefaults(defineProps<ProjectTextMediaProps>(), {
   mediaPosition: 'left',
@@ -29,11 +30,15 @@ const textColClass = computed(() =>
           v-if="eyebrow"
           class="font-label text-[10px] tracking-[0.3em] uppercase text-outline"
         >
-          {{ eyebrow }}
+          <TextEffect
+            :text="eyebrow"
+            in-view
+            class="text-outline font-label text-[10px] tracking-[0.3em] uppercase"
+          />
         </h2>
         <h3
           v-if="title"
-          class="text-3xl font-medium font-headline text-on-surface tracking-tight whitespace-pre-line"
+          class="text-3xl font-bold tracking-tight text-on-surface uppercase mb-6"
         >
           {{ title }}
         </h3>

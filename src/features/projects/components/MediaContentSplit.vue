@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { MediaContentSplitProps } from '../types/media-content-split.model'
+import TextEffect from '@/shared/ui/TextEffect.vue'
 
 const props = withDefaults(defineProps<MediaContentSplitProps>(), {
   mediaPosition: 'left',
@@ -75,12 +76,16 @@ const listItemClass = computed(() =>
               textAlignClass,
             ]"
           >
-            {{ eyebrow }}
+            <TextEffect
+              :text="eyebrow"
+              in-view
+              class="text-on-surface font-label text-[10px] tracking-[0.3em] uppercase text-outline"
+            />
           </p>
           <h2
             v-if="title"
             :class="[
-              'text-3xl font-bold font-headline tracking-tight text-on-surface uppercase mb-6 md:justify-self-end',
+              'text-3xl font-bold tracking-tight text-on-surface uppercase mb-6 md:justify-self-end',
               textAlignClass,
             ]"
           >
@@ -88,7 +93,7 @@ const listItemClass = computed(() =>
           </h2>
           <p
             v-if="description"
-            :class="['text-on-surface-variant leading-relaxed', textAlignClass]"
+            :class="['text-on-surface-variant leading-relaxed text-lg', textAlignClass]"
           >
             {{ description }}
           </p>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ProjectTechnicalBreakdownProps } from '../types/project-technical-breakdown.model'
+import TextEffect from '@/shared/ui/TextEffect.vue'
 
 defineProps<ProjectTechnicalBreakdownProps>()
 </script>
@@ -11,7 +12,11 @@ defineProps<ProjectTechnicalBreakdownProps>()
       class="mb-12 flex flex-row items-center gap-3 sm:gap-8"
     >
       <p class="shrink-0 font-label text-xs tracking-[0.3em] uppercase text-outline">
-        {{ sectionLabel }}
+        <TextEffect
+          :text="sectionLabel"
+          in-view
+          class="text-outline font-label text-[10px] tracking-[0.3em] uppercase"
+        />
       </p>
       <div
         class="h-px min-h-px flex-1 min-w-0 bg-outline-variant/30"
@@ -35,7 +40,7 @@ defineProps<ProjectTechnicalBreakdownProps>()
         >
           <h2
             v-if="highlightTitle"
-            class="text-2xl md:text-3xl lg:text-4xl font-medium font-headline text-on-surface tracking-tight uppercase"
+            class="text-3xl font-bold tracking-tight text-on-surface uppercase mb-6"
           >
             {{ highlightTitle }}
           </h2>

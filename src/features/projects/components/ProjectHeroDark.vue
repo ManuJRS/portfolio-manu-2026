@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import type { AppLocale } from '@/features/home/types/locale'
 import type { ProjectHeroDarkProps } from '../types/project-hero-dark.model'
+import TextEffect from '@/shared/ui/TextEffect.vue'
 
 const props = defineProps<ProjectHeroDarkProps>()
 
@@ -42,7 +43,10 @@ const showProjectLink = computed(
               :to="homeTo"
               class="transition-colors hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-white/40"
             >
-              {{ homeLabel }}
+              <TextEffect
+                :text="homeLabel"
+                class="text-white/70"
+              />
             </RouterLink>
           </li>
           <li v-if="breadcrumbTitle" aria-hidden="true" class="text-white/25">
@@ -53,7 +57,10 @@ const showProjectLink = computed(
             class="max-w-[min(100%,42rem)] truncate text-white/70"
             aria-current="page"
           >
-            {{ breadcrumbTitle }}
+            <TextEffect
+              :text="breadcrumbTitle"
+              class="text-white/70"
+            />
           </li>
         </ol>
       </nav>

@@ -5,12 +5,11 @@ import type { AppLocale } from '../types/locale'
 import { useHomePortfolio } from '../composables/useHomePortfolio'
 import { usePageSeo } from '../composables/usePageSeo'
 import DynamicBlockRenderer from '@/features/dynamic-blocks/components/DynamicBlockRenderer.vue'
+import Loader from '@/shared/ui/Loader.vue'
 
 const route = useRoute()
 
-const locale = computed(
-  () => route.params.locale as AppLocale,
-)
+const locale = computed(() => route.params.locale as AppLocale)
 
 const { data, loading, error, refresh } = useHomePortfolio(locale)
 
@@ -22,12 +21,7 @@ usePageSeo(() => data.value?.seo)
     <div class="fixed inset-0 grid-bg pointer-events-none z-0" />
 
     <main class="relative z-10 min-h-screen">
-      <div
-        v-if="loading"
-        class="flex min-h-screen items-center justify-center text-sm uppercase tracking-widest text-on-surface-variant"
-      >
-        Cargando…
-      </div>
+      <Loader v-if="loading" :locale="locale" full-screen />
 
       <div
         v-else-if="error"

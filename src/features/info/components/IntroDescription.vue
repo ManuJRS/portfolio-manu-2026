@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { IntroDescriptionProps } from '../types/intro-description.model'
+import TitleEffect from '@/shared/ui/TitleEffect.vue';
 
 defineProps<IntroDescriptionProps>()
 </script>
@@ -16,7 +17,9 @@ defineProps<IntroDescriptionProps>()
       v-if="title"
       class="text-6xl md:text-8xl font-bold tracking-tighter mb-8 text-primary"
     >
-      {{ title }}
+      <TitleEffect block-color="#ffffff">
+        {{ title }}
+      </TitleEffect>
     </h1>
     <p
       v-if="description"
