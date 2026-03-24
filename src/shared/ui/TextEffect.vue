@@ -27,12 +27,15 @@ const props = withDefaults(
     inView?: boolean
     /** Si inView=true, animar una sola vez */
     once?: boolean
+    /** Margen del viewport para activar (IntersectionObserver rootMargin). En móvil conviene más permisivo (ej: 0px) */
+    rootMargin?: string
   }>(),
   {
     speed: 20,
     delay: 0,
     inView: false,
     once: true,
+    rootMargin: '0px 0px -80px 0px',
   }
 )
 
@@ -58,7 +61,7 @@ const { stop: stopObserver } = useIntersectionObserver(
       }, props.delay * 1000)
     }
   },
-  { rootMargin: '-100px', threshold: 0 }
+  { rootMargin: props.rootMargin, threshold: 0 }
 )
 
 function startAnimation() {

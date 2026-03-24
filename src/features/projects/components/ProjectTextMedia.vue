@@ -28,11 +28,12 @@ const textColClass = computed(() =>
       <div :class="[textColClass, 'space-y-8 max-w-2xl']">
         <h2
           v-if="eyebrow"
-          class="font-label text-[10px] tracking-[0.3em] uppercase text-outline"
+          class="font-label text-xs md:text-[10px] tracking-[0.3em] uppercase text-outline"
         >
           <TextEffect
             :text="eyebrow"
             in-view
+            root-margin="0px"
             class="text-outline font-label text-[10px] tracking-[0.3em] uppercase"
           />
         </h2>
