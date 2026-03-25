@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Origen: https://manurejon.dev (sin barra final).
+  Añade entradas /es/projects/:slug y /en/projects/:slug cuando tengas los slugs (p. ej. Strapi).
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Inicio -->
+  <url>
+    <loc>https://manurejon.dev/es</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://manurejon.dev/es"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://manurejon.dev/en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://manurejon.dev/es"/>
+  </url>
+  <url>
+    <loc>https://manurejon.dev/en</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://manurejon.dev/es"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://manurejon.dev/en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://manurejon.dev/es"/>
+  </url>
+  <!-- Info -->
+  <url>
+    <loc>https://manurejon.dev/es/info</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://manurejon.dev/es/info"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://manurejon.dev/en/info"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://manurejon.dev/es/info"/>
+  </url>
+  <url>
+    <loc>https://manurejon.dev/en/info</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://manurejon.dev/es/info"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://manurejon.dev/en/info"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://manurejon.dev/es/info"/>
+  </url>
+</urlset>
