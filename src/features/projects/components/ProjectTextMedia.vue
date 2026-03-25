@@ -68,9 +68,12 @@ const textColClass = computed(() =>
           v-else-if="mediaUrl && mediaKind === 'video'"
           class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
           :src="mediaUrl"
+          autoplay
+          muted
+          loop
           playsinline
-          controls
-          preload="metadata"
+          webkit-playsinline
+          preload="auto"
           :aria-label="mediaAlt || undefined"
         />
       </div>
