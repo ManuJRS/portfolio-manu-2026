@@ -124,7 +124,7 @@ const handleSubmit = async () => {
     name="contact"
     :action="NETLIFY_FORM_POST_PATH"
     method="POST"
-    data-netlify="true"
+    netlify
     class="text-left"
     :class="rootClass"
     @submit.prevent="handleSubmit"
