@@ -57,7 +57,7 @@ watch(
       window.addEventListener('keydown', onKeydown)
       void nextTick(() => {
         const first = panelRef.value?.querySelector<HTMLInputElement>(
-          'input:not([type="hidden"])',
+          'input[name="name"]',
         )
         first?.focus()
       })
