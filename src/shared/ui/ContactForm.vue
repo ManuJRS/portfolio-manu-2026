@@ -3,6 +3,12 @@ import { computed, ref, useId } from 'vue'
 import type { AppLocale } from '@/features/home/types/locale'
 import { cn } from '@/shared/utils/cn'
 
+/** Misma ruta que el formulario estático; coherente con Vite `base`. */
+const NETLIFY_FORM_POST_PATH = new URL(
+  import.meta.env.BASE_URL || '/',
+  'https://placeholder.example',
+).pathname
+
 const props = withDefaults(
   defineProps<{
     /** `embedded`: ancho completo para usar dentro de modales u otros contenedores */
@@ -46,14 +52,12 @@ const error = ref(false)
 const rawId = useId()
 const fieldId = (suffix: string) => `${rawId.replace(/:/g, '')}-${suffix}`
 
-/** Cuerpo `application/x-www-form-urlencoded` compatible con Netlify Forms (no enviar bot-field vacío). */
+/** Igual que en la documentación de Netlify: URLSearchParams sobre FormData completo (incl. honeypot vacío). */
 const buildNetlifyBody = (form: HTMLFormElement) => {
   const formData = new FormData(form)
   const params = new URLSearchParams()
   for (const [key, value] of formData.entries()) {
-    const str = typeof value === 'string' ? value : String(value)
-    if (key === 'bot-field' && str.trim() === '') continue
-    params.append(key, str)
+    params.append(key, typeof value === 'string' ? value : String(value))
   }
   return params.toString()
 }
@@ -92,7 +96,7 @@ const handleSubmit = async () => {
   error.value = false
 
   try {
-    const response = await fetch('/', {
+    const response = await fetch(NETLIFY_FORM_POST_PATH, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -122,6 +126,7 @@ const handleSubmit = async () => {
   <form
     ref="formRef"
     name="contact"
+    :action="NETLIFY_FORM_POST_PATH"
     method="POST"
     data-netlify="true"
     data-netlify-honeypot="bot-field"
