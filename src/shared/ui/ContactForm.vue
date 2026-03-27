@@ -52,14 +52,13 @@ const error = ref(false)
 const rawId = useId()
 const fieldId = (suffix: string) => `${rawId.replace(/:/g, '')}-${suffix}`
 
-/** Igual que en la documentación de Netlify: URLSearchParams sobre FormData completo (incl. honeypot vacío). */
+/** Netlify Forms: cuerpo como URLSearchParams; fetch añade Content-Type + charset (no fijar header a mano). */
 const buildNetlifyBody = (form: HTMLFormElement) => {
-  const formData = new FormData(form)
   const params = new URLSearchParams()
-  for (const [key, value] of formData.entries()) {
+  for (const [key, value] of new FormData(form).entries()) {
     params.append(key, typeof value === 'string' ? value : String(value))
   }
-  return params.toString()
+  return params
 }
 
 const rootClass = computed(() =>
@@ -98,9 +97,6 @@ const handleSubmit = async () => {
   try {
     const response = await fetch(NETLIFY_FORM_POST_PATH, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
       body: buildNetlifyBody(formRef.value),
     })
 
@@ -128,7 +124,7 @@ const handleSubmit = async () => {
     name="contact"
     :action="NETLIFY_FORM_POST_PATH"
     method="POST"
-    netlify
+    data-netlify="true"
     class="text-left"
     :class="rootClass"
     @submit.prevent="handleSubmit"
@@ -190,12 +186,6 @@ const handleSubmit = async () => {
         :class="textareaClass"
       />
     </div>
-
-    <p class="hidden" aria-hidden="true">
-      <label>
-        <input type="text" name="bot-field" tabindex="-1" autocomplete="off" />
-      </label>
-    </p>
 
     <button type="submit" :disabled="loading" :class="submitClass">
       {{ loading ? copy.submitting : copy.submit }}

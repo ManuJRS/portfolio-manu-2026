@@ -18,12 +18,11 @@
       Registro estático para Netlify Forms (el build detecta name + campos).
       El envío real lo hace ContactForm.vue (mismo name="contact" y mismos nombres de campo).
     -->
-    <form name="contact" action="/" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+    <form name="contact" action="/" method="POST" data-netlify="true" hidden>
       <input type="hidden" name="form-name" value="contact" />
       <input type="text" name="name" />
       <input type="email" name="email" />
       <textarea name="message"></textarea>
-      <input name="bot-field" />
     </form>
     <script type="module" src="/src/main.ts"></script>
   </body>
