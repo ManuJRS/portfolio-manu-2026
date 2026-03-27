@@ -59,7 +59,9 @@ function onClick(e: MouseEvent) {
     <div
       class="icon absolute left-4 top-1/2 -translate-y-1/2 translate-x-0 duration-500 group-hover:translate-x-[0.4rem]"
     >
-      <ArrowRight class="size-6 text-on-primary" />
+      <slot name="icon">
+        <ArrowRight class="size-6 text-on-primary" />
+      </slot>
     </div>
     <span
       class="button-text absolute left-1/2 top-1/2 ml-4 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-center text-lg font-medium tracking-tight text-on-surface duration-500 group-hover:text-on-primary"

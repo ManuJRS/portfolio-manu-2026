@@ -14,6 +14,17 @@
   </head>
   <body class="bg-surface selection:bg-primary selection:text-on-primary overflow-x-hidden">
     <div id="app"></div>
+    <!--
+      Registro estático para Netlify Forms (el build detecta name + campos).
+      El envío real lo hace ContactForm.vue (mismo name="contact" y mismos nombres de campo).
+    -->
+    <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="contact" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <textarea name="message"></textarea>
+      <input name="bot-field" />
+    </form>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
