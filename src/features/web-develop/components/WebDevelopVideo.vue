@@ -14,24 +14,42 @@ function iconAt(index: number) {
 <template>
   <section class="overflow-hidden bg-surface-container-lowest py-16 md:py-32">
     <div class="mx-auto max-w-7xl space-y-8 px-6 md:space-y-12">
-      <div class="relative z-10 max-w-2xl">
-        <h2 class="font-headline text-3xl font-semibold lg:text-5xl">{{ title }}</h2>
-        <p class="mt-6 text-lg text-on-surface-variant">{{ description }}</p>
-      </div>
+      <div class="w-full mb-4 flex flex-col items-start">
+        <div class="flex items-center gap-4 mb-6 flex-wrap">
+          <span
+            
+            class="text-[10px] font-mono text-white bg-white/10 px-3 py-1"
+          >
+            Web Develop
+          </span>
+          <div class="flex items-baseline gap-3 flex-wrap min-w-0">
+            <TitleEffect
+              v-if="title"
+              block-color="#ffffff"
+              class="text-3xl font-bold tracking-[0.1em] uppercase text-white"
+            >
+              <h2 class="inline">{{ title }}</h2>
+            </TitleEffect>
+            <p class="text-lg text-on-surface-variant">{{ description }}</p>
+          </div>
+        </div>
+      <div class="w-full h-px bg-white/10" />
+    </div>
 
       <div v-if="mediaUrl" class="relative -mx-4 rounded-3xl p-3 md:-mx-12 lg:col-span-3">
-        <div class="[perspective:800px]">
-          <div class="[transform:skewY(-2deg)skewX(-2deg)rotateX(6deg)]">
-            <div class="relative aspect-[88/36]">
-              <div
-                class="pointer-events-none absolute -inset-[4.25rem] z-[1] opacity-90"
-              />
+        <div>
+          <div>
+            <div class="relative aspect-[88/40] overflow-hidden">
               <video
                 v-if="mediaKind === 'video'"
-                class="absolute inset-0 z-10 h-full w-full object-cover"
+                class="absolute inset-0 z-10 h-full w-full object-cover border-2 rounded-md border-white/10"
                 :src="mediaUrl"
-                controls
+                autoplay
+                muted
+                loop
                 playsinline
+                webkit-playsinline
+                preload="auto"
                 :aria-label="mediaAlt || undefined"
               />
               <img
