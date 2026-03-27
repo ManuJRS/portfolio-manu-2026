@@ -46,8 +46,16 @@ const error = ref(false)
 const rawId = useId()
 const fieldId = (suffix: string) => `${rawId.replace(/:/g, '')}-${suffix}`
 
-const encode = (data: Record<string, string>) => {
-  return new URLSearchParams(data).toString()
+/** Cuerpo `application/x-www-form-urlencoded` compatible con Netlify Forms (no enviar bot-field vacío). */
+const buildNetlifyBody = (form: HTMLFormElement) => {
+  const formData = new FormData(form)
+  const params = new URLSearchParams()
+  for (const [key, value] of formData.entries()) {
+    const str = typeof value === 'string' ? value : String(value)
+    if (key === 'bot-field' && str.trim() === '') continue
+    params.append(key, str)
+  }
+  return params.toString()
 }
 
 const rootClass = computed(() =>
@@ -83,16 +91,13 @@ const handleSubmit = async () => {
   success.value = false
   error.value = false
 
-  const formData = new FormData(formRef.value)
-  const data = Object.fromEntries(formData.entries()) as Record<string, string>
-
   try {
     const response = await fetch('/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: encode(data),
+      body: buildNetlifyBody(formRef.value),
     })
 
     if (!response.ok) {
@@ -119,13 +124,12 @@ const handleSubmit = async () => {
     name="contact"
     method="POST"
     data-netlify="true"
-    netlify-honeypot="bot-field"
+    data-netlify-honeypot="bot-field"
     class="text-left"
     :class="rootClass"
     @submit.prevent="handleSubmit"
   >
     <input type="hidden" name="form-name" value="contact" />
-    <input type="hidden" name="bot-field" />
 
     <div class="space-y-2">
       <label
@@ -182,6 +186,12 @@ const handleSubmit = async () => {
         :class="textareaClass"
       />
     </div>
+
+    <p class="hidden" aria-hidden="true">
+      <label>
+        <input type="text" name="bot-field" tabindex="-1" autocomplete="off" />
+      </label>
+    </p>
 
     <button type="submit" :disabled="loading" :class="submitClass">
       {{ loading ? copy.submitting : copy.submit }}
