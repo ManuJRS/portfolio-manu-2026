@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import AppFooter from '@/features/home/components/AppFooter.vue'
 import { isAppLocale, type AppLocale } from '@/features/home/types/locale'
 import BottomNav from '@/features/home/utils/BottomNav.vue'
-import FloatingActionMenu from '@/shared/ui/FloatingActionMenu.vue'
+import AuthDialogModal from '@/shared/ui/AuthDialogModal.vue'
+import FloatingActionMenuMotion from '@/shared/ui/FloatingActionMenuMotion.vue'
 
 const route = useRoute()
 
@@ -14,7 +15,7 @@ const locale = computed<AppLocale>(() => {
   return typeof value === 'string' && isAppLocale(value) ? value : 'es'
 })
 
-const CONTACT_EMAIL = 'manueljesusrejonsantana@gmail.com'
+const contactModalOpen = ref(false)
 
 async function copyPageUrlToClipboard(): Promise<boolean> {
   const url = window.location.href
@@ -45,7 +46,7 @@ const fabOptions = computed(() => {
     {
       label: es ? 'Contactar' : 'Contact',
       onClick: () => {
-        window.location.href = `mailto:${CONTACT_EMAIL}`
+        contactModalOpen.value = true
       },
     },
     {
@@ -67,11 +68,15 @@ const fabToggleAriaLabel = computed(() =>
     <router-view />
     <AppFooter />
 
-    <FloatingActionMenu
+    <FloatingActionMenuMotion
       :options="fabOptions"
       :toggle-aria-label="fabToggleAriaLabel"
+      :locale="locale"
       class-name="bottom-24 right-5 sm:right-8"
+      :open-eye-offset-x="-5.5"
+      :open-eye-offset-y="-6.5"
     />
+    <AuthDialogModal v-model="contactModalOpen" :locale="locale" />
   </div>
   <BottomNav />
 </template>
