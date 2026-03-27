@@ -14,6 +14,11 @@ const router = createRouter({
       redirect: '/es',
     },
     {
+      path: '/desarrollo-web',
+      name: 'web-develop',
+      component: () => import('@/features/web-develop/views/WebDevelopView.vue'),
+    },
+    {
       path: '/:locale(es|en)/projects/:slug',
       name: 'project-detail',
       component: () => import('@/features/projects/views/ProjectDetailView.vue'),
