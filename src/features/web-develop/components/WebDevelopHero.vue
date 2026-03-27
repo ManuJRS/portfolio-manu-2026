@@ -1,11 +1,31 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { isAppLocale, type AppLocale } from '@/features/home/types/locale'
+import AuthDialogModal from '@/shared/ui/AuthDialogModal.vue'
 import MotionButton from '@/shared/ui/MotionButton.vue'
+import TextEffect from '@/shared/ui/TextEffect.vue'
+
 defineProps<{
   title: string
   tag: string
   buttonText: string
   buttonUrl: string
 }>()
+
+const route = useRoute()
+const locale = computed<AppLocale>(() => {
+  const raw = route.params.locale
+  const value = Array.isArray(raw) ? raw[0] : raw
+  return typeof value === 'string' && isAppLocale(value) ? value : 'es'
+})
+
+const authModalOpen = ref(false)
+
+function openAuthModal(e: MouseEvent) {
+  e.preventDefault()
+  authModalOpen.value = true
+}
 </script>
 
 <template>
@@ -19,7 +39,11 @@ defineProps<{
 
     <div class="relative z-10 mx-auto w-full max-w-7xl px-8 text-center">
       <div v-if="tag" class="mb-8 inline-block border border-outline-variant/30 px-4 py-1">
-        <span class="text-[10px] font-medium uppercase tracking-[0.2em] text-zinc-500">{{ tag }}</span>
+        <TextEffect
+          :text="tag"
+          :speed="16"
+          class="text-[10px] font-medium uppercase tracking-[0.2em] text-zinc-500"
+        />
       </div>
 
       <h1
@@ -29,9 +53,15 @@ defineProps<{
       </h1>
 
       <div class="flex flex-col items-center justify-center gap-4">
-        <MotionButton :href="buttonUrl" :label="buttonText" />
+        <MotionButton
+          :href="buttonUrl"
+          :label="buttonText"
+          @click="openAuthModal"
+        />
       </div>
     </div>
+
+    <AuthDialogModal v-model="authModalOpen" :locale="locale" />
 
     <div class="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce text-zinc-500">
       <span class="material-symbols-outlined">south</span>
