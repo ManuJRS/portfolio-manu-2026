@@ -36,7 +36,7 @@ function openAuthModal(e: MouseEvent) {
 
 <template>
   <section
-    class="relative flex min-h-[60vh] items-center justify-center overflow-hidden bg-surface-container-low pt-20 pb-24 md:min-h-[70vh] md:pb-28"
+    class="relative flex min-h-[60vh] items-center justify-center overflow-hidden bg-surface-container-low pt-20 pb-24 md:min-h-[40vh] md:pb-28"
   >
   <FuzzyHeroBackground overlay-only class="z-[1]" />
     <div class="absolute inset-0 grid-pattern" />
