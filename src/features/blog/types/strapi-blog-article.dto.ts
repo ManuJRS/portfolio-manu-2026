@@ -73,6 +73,9 @@ export type StrapiBlogArticleDocument = {
   publishedAt?: string | null
   Title?: string | null
   slug?: string | null
+  DescriptionProyect?: string | null
+  Author?: string | null
+  Tags?: StrapiBlogTagDto[] | null
   BlogSections?: StrapiBlogArticleDynamicZoneBlock[] | null
 }
 

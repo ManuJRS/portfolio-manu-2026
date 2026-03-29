@@ -22,6 +22,7 @@ export async function fetchBlogArticleBySlugRaw(slug: string): Promise<StrapiBlo
   params.set('filters[slug][$eq]', slug)
   params.set('pagination[pageSize]', '1')
   params.set('populate[BlogSections][populate]', '*')
+  params.set('populate[Tags]', '*')
 
   const path = `${base}?${params.toString()}`
   const list = await httpClient.get<StrapiBlogArticleListResponse>(path)
