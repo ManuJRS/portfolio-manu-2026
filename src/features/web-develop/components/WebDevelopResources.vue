@@ -121,17 +121,30 @@ watch(
         >
           <div>
             <div class="flex aspect-[3/2] overflow-hidden rounded-xl bg-surface-container-high">
-              <div class="flex flex-1 items-center justify-center bg-gradient-to-br from-white/5 to-white/0">
-                <span class="text-xs uppercase tracking-widest text-on-surface-variant/60">Proyecto</span>
+              <img
+                v-if="item.imageSrc"
+                :src="item.imageSrc"
+                :alt="item.title"
+                class="h-full w-full object-cover grayscale opacity-50 transition-opacity duration-700 group-hover:opacity-80"
+              />
+              <div
+                v-else
+                class="flex flex-1 items-center justify-center bg-gradient-to-br from-white/5 to-white/0"
+              >
+                <span class="text-xs uppercase tracking-widest text-on-surface-variant/60">Blog</span>
               </div>
             </div>
           </div>
           <div
+            v-if="item.title"
             class="mb-2 line-clamp-3 break-words pt-4 text-lg font-medium md:mb-3 md:pt-4 md:text-xl lg:pt-4 lg:text-2xl"
           >
             {{ item.title }}
           </div>
-          <div class="mb-8 line-clamp-2 text-on-surface-variant md:mb-12 md:text-base lg:mb-9">
+          <div
+            v-if="item.summary"
+            class="mb-8 line-clamp-2 text-on-surface-variant md:mb-12 md:text-base lg:mb-9"
+          >
             {{ item.summary }}
           </div>
           <div class="flex items-center text-sm text-on-surface">
