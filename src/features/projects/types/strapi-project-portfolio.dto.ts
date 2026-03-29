@@ -41,6 +41,7 @@ export type StrapiMediaDto = {
   documentId?: string
   name?: string
   alternativeText?: string | null
+  caption?: string | null
   mime?: string
   url: string
   formats?: {
