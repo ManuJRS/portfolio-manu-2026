@@ -1,4 +1,5 @@
 import type { StrapiWebDevelopResponse } from '@/features/web-develop/types/strapi-web-develop.dto'
+import { buildWebDevelopQuery } from '@/lib/strapi/webDevelopQuery'
 import { httpClient } from '@/services/http'
 
 function resolveWebDevelopEndpointCandidates(): string[] {
@@ -10,13 +11,7 @@ function resolveWebDevelopEndpointCandidates(): string[] {
 }
 
 export async function fetchWebDevelopRaw(): Promise<StrapiWebDevelopResponse> {
-  const params = new URLSearchParams()
-  // Strapi localization: mantenemos `locale=` (vacío) como en tu URL de prueba
-  // y solo poblamos secciones por ahora (SEO se puede añadir luego si hace falta).
-  params.set('locale', '')
-  params.set('populate[sections][populate]', '*')
-
-  const query = params.toString()
+  const query = buildWebDevelopQuery()
   const candidates = resolveWebDevelopEndpointCandidates()
 
   let lastError: unknown = null
