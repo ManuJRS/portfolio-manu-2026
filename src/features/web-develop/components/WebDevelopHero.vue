@@ -6,6 +6,7 @@ import type { WebDevelopHeroProps } from '../types/web-develop-hero.model'
 import AuthDialogModal from '@/shared/ui/AuthDialogModal.vue'
 import MotionButton from '@/shared/ui/MotionButton.vue'
 import TextEffect from '@/shared/ui/TextEffect.vue'
+import FuzzyHeroBackground from '@/shared/ui/FuzzyHeroBackground.vue'
 
 const props = defineProps<WebDevelopHeroProps>()
 
@@ -18,7 +19,6 @@ const locale = computed<AppLocale>(() => {
 
 const authModalOpen = ref(false)
 
-/** Vídeo por defecto en `/public` si Strapi no envía MediaHero */
 const fallbackVideoSrc = `/${encodeURIComponent('image-rendering pixelated; (1).mp4')}`
 
 const heroSrc = computed(() => props.heroMedia?.src ?? fallbackVideoSrc)
@@ -36,8 +36,9 @@ function openAuthModal(e: MouseEvent) {
 
 <template>
   <section
-    class="relative flex min-h-[60vh] items-center justify-center overflow-hidden pt-20 pb-24 md:min-h-[70vh] md:pb-28"
+    class="relative flex min-h-[60vh] items-center justify-center overflow-hidden bg-surface-container-low pt-20 pb-24 md:min-h-[70vh] md:pb-28"
   >
+  <FuzzyHeroBackground overlay-only class="z-[1]" />
     <div class="absolute inset-0 grid-pattern" />
     <div
       class="absolute left-1/2 top-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-[120px]"
@@ -59,7 +60,7 @@ function openAuthModal(e: MouseEvent) {
         </div>
 
         <h1
-          class="mb-8 font-headline text-7xl font-bold uppercase leading-[0.9] tracking-[-0.04em]"
+          class="mb-8 font-headline md:text-7xl text-5xl font-bold uppercase leading-[0.9] tracking-[-0.04em]"
         >
           {{ title }}
         </h1>

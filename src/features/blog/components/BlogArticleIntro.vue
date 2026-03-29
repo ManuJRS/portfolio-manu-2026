@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { RouterLink } from 'vue-router'
 import type { BlogArticleIntroProps } from '../types/blog-article-intro.model'
 
 const props = defineProps<BlogArticleIntroProps>()
@@ -6,13 +7,28 @@ const props = defineProps<BlogArticleIntroProps>()
 
 <template>
   <header class="pb-8">
+    <nav
+      class="mb-6 flex flex-wrap items-center gap-x-2 gap-y-1 font-label text-[11px] font-bold uppercase tracking-[0.12em] text-on-surface-variant"
+      aria-label="Migas de pan"
+    >
+      <RouterLink :to="{ name: 'web-develop' }" class="text-primary transition-colors hover:underline">
+        Desarrollo web
+      </RouterLink>
+      <span aria-hidden="true" class="select-none text-outline">/</span>
+      <RouterLink :to="{ name: 'blog-preview' }" class="text-primary transition-colors hover:underline">
+        Blog
+      </RouterLink>
+      <span aria-hidden="true" class="select-none text-outline">/</span>
+      <span class="line-clamp-2 text-on-surface" aria-current="page">{{ props.title }}</span>
+    </nav>
+
     <div v-if="props.tags.length" class="mb-6 flex flex-wrap gap-2">
       <span
-        v-for="(tag, index) in props.tags"
-        :key="`${tag}-${index}`"
+        v-for="tag in props.tags"
+        :key="tag.id"
         class="border-l-2 border-primary bg-surface-container-high px-3 py-1 text-[10px] font-bold uppercase tracking-[0.05em] text-primary"
       >
-        #{{ tag }}
+        #{{ tag.label }}
       </span>
     </div>
 

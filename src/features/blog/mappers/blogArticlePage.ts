@@ -11,7 +11,7 @@ import type { BlogArticlePage, BlogArticleSection } from '../types/blog-article-
 import { mapBlogArticleCodeBlockFromStrapi } from './blogArticleCodeBlock'
 import { mapBlogArticleContentFromStrapi } from './blogArticleContent'
 import { mapBlogArticleContentListFromStrapi } from './blogArticleContentList'
-import { mapBlogArticleIntroFromStrapi } from './blogArticleIntro'
+import { mapBlogArticleIntroFromDocument } from './blogArticleIntro'
 
 function isBlogHeroBlock(block: StrapiBlogArticleDynamicZoneBlock): block is StrapiBlogHeroBlockDto {
   return block.__component === 'components.blog-hero'
@@ -31,11 +31,8 @@ function isSharedCodeBlock(block: StrapiBlogArticleDynamicZoneBlock): block is S
 
 function mapSection(block: StrapiBlogArticleDynamicZoneBlock): BlogArticleSection | null {
   if (isBlogHeroBlock(block)) {
-    return {
-      component: 'components.blog-hero',
-      id: `components.blog-hero-${block.id}`,
-      props: mapBlogArticleIntroFromStrapi(block),
-    }
+    // No se renderiza como sección: título/bajada/tags vienen del documento; Author se usa al mapear la intro.
+    return null
   }
   if (isBlogContentBlock(block)) {
     const props = mapBlogArticleContentFromStrapi(block)
@@ -69,8 +66,23 @@ function mapSection(block: StrapiBlogArticleDynamicZoneBlock): BlogArticleSectio
   return null
 }
 
+function findBlogHeroBlock(
+  blocks: StrapiBlogArticleDynamicZoneBlock[] | null | undefined,
+): StrapiBlogHeroBlockDto | null {
+  if (!blocks?.length) return null
+  const hero = blocks.find(isBlogHeroBlock)
+  return hero ?? null
+}
+
 function mapDocument(doc: StrapiBlogArticleDocument): BlogArticlePage {
-  const sections: BlogArticleSection[] = []
+  const heroBlock = findBlogHeroBlock(doc.BlogSections)
+  const sections: BlogArticleSection[] = [
+    {
+      component: 'components.blog-hero',
+      id: `blog-intro-${doc.id}`,
+      props: mapBlogArticleIntroFromDocument(doc, heroBlock),
+    },
+  ]
   if (doc.BlogSections?.length) {
     for (const block of doc.BlogSections) {
       const mapped = mapSection(block)

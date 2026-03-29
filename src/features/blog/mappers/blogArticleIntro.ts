@@ -1,4 +1,4 @@
-import type { StrapiBlogHeroBlockDto } from '../types/strapi-blog-article.dto'
+import type { StrapiBlogArticleDocument, StrapiBlogHeroBlockDto } from '../types/strapi-blog-article.dto'
 import type { BlogArticleIntroProps } from '../types/blog-article-intro.model'
 
 function formatBlogDate(isoOrDate: string | null | undefined): string {
@@ -13,17 +13,33 @@ function formatBlogDate(isoOrDate: string | null | undefined): string {
   }).format(d)
 }
 
-export function mapBlogArticleIntroFromStrapi(block: StrapiBlogHeroBlockDto): BlogArticleIntroProps {
-  const tags =
-    block.Tags?.map((t) => t.Tags?.trim()).filter((t): t is string => Boolean(t && t.length)) ?? []
+function mapTagsFromStrapiTags(
+  rows: { id: number; Tags?: string | null }[] | null | undefined,
+): BlogArticleIntroProps['tags'] {
+  if (!rows?.length) return []
+  const out: BlogArticleIntroProps['tags'] = []
+  for (const row of rows) {
+    const label = row.Tags?.trim()
+    if (label) out.push({ id: row.id, label })
+  }
+  return out
+}
 
-  const desc = block.Description?.trim()
-
+/**
+ * Intro desde el documento (título, bajada, tags, fecha).
+ * `hero` opcional: el autor sigue viniendo del bloque `components.blog-hero` en la zona dinámica.
+ */
+export function mapBlogArticleIntroFromDocument(
+  doc: StrapiBlogArticleDocument,
+  hero?: StrapiBlogHeroBlockDto | null,
+): BlogArticleIntroProps {
+  const desc = doc.DescriptionProyect?.trim()
+  const authorFromHero = hero?.Author?.trim()
   return {
-    title: block.Title?.trim() || 'Artículo',
+    title: doc.Title?.trim() || 'Artículo',
     ...(desc && { description: desc }),
-    dateLabel: formatBlogDate(block.Date),
-    author: block.Author?.trim() || '',
-    tags,
+    dateLabel: formatBlogDate(doc.publishedAt ?? doc.updatedAt ?? doc.createdAt),
+    author: authorFromHero || doc.Author?.trim() || '',
+    tags: mapTagsFromStrapiTags(doc.Tags),
   }
 }
