@@ -19,6 +19,11 @@ const router = createRouter({
       component: () => import('@/features/web-develop/views/WebDevelopView.vue'),
     },
     {
+      path: '/desarrollo-web/blog',
+      name: 'blog-preview',
+      component: () => import('@/features/blog/views/BlogPreviewView.vue'),
+    },
+    {
       path: '/desarrollo-web/blog/:slug',
       name: 'blog-article',
       component: () => import('@/features/blog/views/BlogArticleView.vue'),
