@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { usePageSeo } from '@/features/home/composables/usePageSeo'
+import PageSeo from '@/shared/ui/PageSeo.vue'
 import WebDevelopBlockRenderer from '../components/WebDevelopBlockRenderer.vue'
 import { useWebDevelop } from '../composables/useWebDevelop'
 
 const { data, loading, error, refresh } = useWebDevelop()
-
-usePageSeo(() => data.value?.seo)
 </script>
 
 <template>
   <div class="min-h-screen">
+    <PageSeo :seo="data?.seo" />
     <div class="fixed inset-0 grid-bg pointer-events-none z-0" />
 
     <main class="relative z-10 min-h-screen">

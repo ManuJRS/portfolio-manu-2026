@@ -9,6 +9,7 @@ export function buildWebDevelopQuery(): string {
     {
       locale: '',
       populate: {
+        Seo: true,
         sections: {
           on: {
             'components.web-develop-hero': { populate: ['MediaHero'] },

@@ -14,8 +14,9 @@ export type StrapiWebDevelopDocument = {
   title?: string
   slug?: string
   sections?: StrapiWebDevelopDynamicZoneBlock[]
-  Seo?: StrapiSeoDto | null
-  seo?: StrapiSeoDto | null
+  /** Componente SEO en Strapi; a veces viene envuelto en `{ data }` */
+  Seo?: StrapiSeoDto | { data: StrapiSeoDto | null } | null
+  seo?: StrapiSeoDto | { data: StrapiSeoDto | null } | null
 }
 
 export type StrapiWebDevelopHeroBlockDto = {
