@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import AppFooter from '@/features/home/components/AppFooter.vue'
 import { isAppLocale, type AppLocale } from '@/features/home/types/locale'
 import BottomNav from '@/features/home/utils/BottomNav.vue'
@@ -8,6 +8,7 @@ import AuthDialogModal from '@/shared/ui/AuthDialogModal.vue'
 import FloatingActionMenuMotion from '@/shared/ui/FloatingActionMenuMotion.vue'
 
 const route = useRoute()
+const router = useRouter()
 
 const locale = computed<AppLocale>(() => {
   const raw = route.params.locale
@@ -42,7 +43,14 @@ async function copyPageUrlToClipboard(): Promise<boolean> {
 
 const fabOptions = computed(() => {
   const es = locale.value === 'es'
+  const loc = locale.value
   return [
+    {
+      label: es ? 'Portafolio' : 'Portfolio',
+      onClick: () => {
+        void router.push({ name: 'home', params: { locale: loc } })
+      },
+    },
     {
       label: es ? 'Contactar' : 'Contact',
       onClick: () => {
@@ -61,12 +69,14 @@ const fabToggleAriaLabel = computed(() =>
   locale.value === 'es' ? 'Menú de acciones' : 'Actions menu',
 )
 
+const isWebDevelopPage = computed(() => route.name === 'web-develop')
+
 </script>
 
 <template>
-  <div class="min-h-screen pb-24">
+  <div class="min-h-screen" :class="isWebDevelopPage ? 'pb-0' : 'pb-24'">
     <router-view />
-    <AppFooter />
+    <AppFooter v-if="!isWebDevelopPage" />
 
     <FloatingActionMenuMotion
       :options="fabOptions"
