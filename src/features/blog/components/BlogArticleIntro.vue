@@ -15,10 +15,6 @@ const props = defineProps<BlogArticleIntroProps>()
         Desarrollo web
       </RouterLink>
       <span aria-hidden="true" class="select-none text-outline">/</span>
-      <RouterLink :to="{ name: 'blog-preview' }" class="text-primary transition-colors hover:underline">
-        Blog
-      </RouterLink>
-      <span aria-hidden="true" class="select-none text-outline">/</span>
       <span class="line-clamp-2 text-on-surface" aria-current="page">{{ props.title }}</span>
     </nav>
 
