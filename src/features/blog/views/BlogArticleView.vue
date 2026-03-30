@@ -46,7 +46,7 @@ usePageSeo(() =>
         </button>
       </div>
 
-      <article v-else-if="data?.sections.length" class="mx-auto max-w-5xl py-20 md:py-28">
+      <article v-else-if="data?.sections.length" class="mx-auto max-w-5xl px-4 py-20 md:py-28">
         <BlogArticleBlockRenderer :sections="data.sections" />
       </article>
 
