@@ -16,17 +16,11 @@ interface Props {
   className?: string
   toggleAriaLabel?: string
   feedbackDurationMs?: number
-  /** Idioma del texto sobre el botón */
   locale?: AppLocale
-  /** Retraso antes del primer mensaje (ms) */
   hintInitialDelayMs?: number
-  /** Cuánto tiempo permanece visible el mensaje en cada aparición (ms) */
   hintVisibleDurationMs?: number
-  /** Tiempo que el mensaje permanece oculto entre apariciones (ms) */
   hintPauseBetweenMs?: number
-  /** Offset horizontal de pupila cuando el menú está abierto */
   openEyeOffsetX?: number
-  /** Offset vertical de pupila cuando el menú está abierto */
   openEyeOffsetY?: number
 }
 
@@ -240,14 +234,14 @@ async function handleOptionClick(option: MenuOption) {
     <button
       type="button"
       @click="toggleMenu"
-      class="eye-bounce flex h-10 w-10 items-center justify-center rounded-full bg-[#161616] shadow-[0_0_20px_rgba(0,0,0,0.2)] transition-all duration-300 hover:bg-[#111111d1] hover:cursor-pointer"
+      class="eye-bounce flex h-15 w-15 items-center justify-center rounded-full bg-[#161616] shadow-[0_0_20px_rgba(0,0,0,0.2)] transition-all duration-300 hover:bg-[#111111d1] hover:cursor-pointer"
       :aria-expanded="isOpen"
       :aria-label="props.toggleAriaLabel"
       @mouseleave="resetPupil"
     >
       <div
         ref="eyeRef"
-        class="relative h-7 w-7 rounded-full border border-black/80 bg-white transition-transform duration-300"
+        class="relative h-12 w-12 rounded-full border border-black/80 bg-white transition-transform duration-300"
         :class="isOpen ? 'scale-95' : 'scale-100'"
       >
       <div
