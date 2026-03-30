@@ -10,6 +10,7 @@ import PortfolioPreview from '../components/PortfolioPreview.vue'
 import { useWebDevelop } from '../composables/useWebDevelop'
 import type { WebDevelopSection } from '../types/web-develop-page.model'
 import { cn } from '@/shared/utils/cn'
+import MenuMobile from '@/shared/ui/MenuMobile.vue'
 
 const { data, loading, error, refresh } = useWebDevelop()
 
@@ -95,6 +96,10 @@ function navButtonClass(active: boolean) {
 <template>
   <div class="min-h-screen">
     <PageSeo :seo="data?.seo" />
+    <MenuMobile
+      v-if="hasSidebarContent && !loading && !error"
+      v-model:active-panel="activePanel"
+    />
     <div class="fixed inset-0 grid-bg pointer-events-none z-0" />
 
     <main class="relative z-10 min-h-screen">
@@ -133,7 +138,7 @@ function navButtonClass(active: boolean) {
             class="mx-auto flex max-w-auto flex-col gap-0 lg:flex-row lg:gap-0 lg:min-h-[min(80vh,1200px)]"
           >
             <aside
-              class="shrink-0 border-b border-outline-variant/15 lg:w-64 lg:border-b-0 lg:border-r lg:border-outline-variant/15 lg:px-4 lg:py-10 xl:w-72"
+              class="hidden shrink-0 border-outline-variant/15 lg:block lg:w-64 lg:border-r lg:border-outline-variant/15 lg:px-4 lg:py-10 xl:w-72"
               aria-label="Secciones de desarrollo web"
             >
               <nav
