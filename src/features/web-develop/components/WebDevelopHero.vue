@@ -38,10 +38,10 @@ function openAuthModal(e: MouseEvent) {
   <section
     class="relative flex min-h-[60vh] items-center justify-center overflow-hidden bg-surface-container-low pt-20 pb-24 md:min-h-[40vh] md:pb-28"
   >
-  <FuzzyHeroBackground overlay-only class="z-[1]" />
-    <div class="absolute inset-0 grid-pattern" />
+  <!-- <FuzzyHeroBackground overlay-only class="z-[1]" />
+    <div class="absolute inset-0 grid-pattern" /> -->
     <div
-      class="absolute left-1/2 top-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-[120px]"
+      class="pointer-events-none absolute left-0 top-0 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-[120px]"
     />
 
     <div

@@ -5,8 +5,8 @@ defineProps<PortfolioPreviewProps>()
 </script>
 
 <template>
-  <section id="portfolio" class=" md:px-8 px-4 md:py-32 py-16 mb-10">
-    <div class="mx-auto max-w-7xl">
+  <section id="portfolio" class="bg-surface-container-lowest py-16 md:py-32">
+    <div class="container mx-auto px-4 md:px-6 lg:px-8">
       <div class="mb-20 flex flex-col md:items-end justify-between gap-8 md:flex-row">
         <h2
           class="font-headline text-3xl font-bold uppercase leading-none sm:text-5xl md:text-6xl"
