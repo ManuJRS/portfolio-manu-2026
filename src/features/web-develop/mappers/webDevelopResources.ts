@@ -8,7 +8,7 @@ import type { WebDevelopResourcesProps } from '../types/web-develop-resources.mo
 function blogArticleHref(slug: string | null | undefined): string {
   const s = slug?.trim()
   if (!s) return '#'
-  return `/desarrollo-web/blog/${encodeURIComponent(s)}`
+  return `/desarrollo-web/${encodeURIComponent(s)}`
 }
 
 function blogTitle(blog: StrapiWebDevelopBlogEntryDto): string {
