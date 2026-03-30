@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Cpu, Lock, Sparkles, Zap, type LucideIcon } from 'lucide-vue-next'
+import TitleEffect from '@/shared/ui/TitleEffect.vue'
 import type { WebDevelopVideoProps } from '../types/web-develop-video.model'
 
 defineProps<WebDevelopVideoProps>()
@@ -13,14 +14,11 @@ function iconAt(index: number) {
 
 <template>
   <section class="overflow-hidden bg-surface-container-lowest py-16 md:py-32">
-    <div class="mx-auto max-w-7xl space-y-8 px-6 md:space-y-12">
+    <div class="container mx-auto space-y-8 px-4 md:space-y-12 md:px-6 lg:px-8">
       <div class="w-full mb-4 flex flex-col items-start">
         <div class="flex items-center gap-4 mb-6 flex-wrap">
-          <span
-            
-            class="text-[10px] font-mono text-white bg-white/10 px-3 py-1"
-          >
-            Web Develop
+          <span class="text-[10px] font-mono text-white bg-white/10 px-3 py-1">
+            Desarrollo Web
           </span>
           <div class="flex items-baseline gap-3 flex-wrap min-w-0">
             <TitleEffect
@@ -36,32 +34,31 @@ function iconAt(index: number) {
       <div class="w-full h-px bg-white/10" />
     </div>
 
-      <div v-if="mediaUrl" class="relative -mx-4 rounded-3xl p-3 md:-mx-12 lg:col-span-3">
-        <div>
-          <div>
-            <div class="relative aspect-[88/40] overflow-hidden">
-              <video
-                v-if="mediaKind === 'video'"
-                class="absolute inset-0 z-10 h-full w-full object-cover border-2 rounded-md border-white/10"
-                :src="mediaUrl"
-                autoplay
-                muted
-                loop
-                playsinline
-                webkit-playsinline
-                preload="auto"
-                :aria-label="mediaAlt || undefined"
-              />
-              <img
-                v-else
-                class="absolute inset-0 z-10 h-full w-full object-cover"
-                :src="mediaUrl"
-                :alt="mediaAlt"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-          </div>
+      <div
+        v-if="mediaUrl"
+        class="mx-auto w-full max-w-2xl rounded-2xl sm:max-w-3xl sm:p-3 md:max-w-6xl"
+      >
+        <div class="relative aspect-video overflow-hidden rounded-lg sm:aspect-[88/40]">
+          <video
+            v-if="mediaKind === 'video'"
+            class="absolute inset-0 z-10 h-full w-full rounded-md border border-white/10 object-cover"
+            :src="mediaUrl"
+            autoplay
+            muted
+            loop
+            playsinline
+            webkit-playsinline
+            preload="auto"
+            :aria-label="mediaAlt || undefined"
+          />
+          <img
+            v-else
+            class="absolute inset-0 z-10 h-full w-full object-cover"
+            :src="mediaUrl"
+            :alt="mediaAlt"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
       </div>
 
