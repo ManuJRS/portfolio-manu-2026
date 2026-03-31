@@ -68,8 +68,9 @@ function getIconName(icon: string) {
     <div
       :class="[
         'relative z-0 min-h-0 md:-mr-16 w-full max-w-[480px] aspect-square rounded-3xl overflow-hidden bg-[#c4a682]',
-        'transition-all duration-700 ease-out',
-        isVisible ? 'translate-x-0 opacity-100' : '-translate-x-20 opacity-0',
+        'translate-x-0 opacity-100',
+        'md:transition-all md:duration-700 md:ease-out',
+        isVisible ? 'md:translate-x-0 md:opacity-100' : 'md:-translate-x-20 md:opacity-0',
       ]"
     >
         <img
@@ -96,10 +97,11 @@ function getIconName(icon: string) {
 
       <div
         :class="[
-          'transition-all duration-700 ease-out delay-150',
-          isVisible ? 'translate-x-0 opacity-100' : 'translate-x-20 opacity-0'
+          'relative z-10 p-8 md:p-12 rounded-[2.5rem] shadow-2xl max-w-xl border border-white/5 backdrop-blur-md',
+          'translate-x-0 opacity-100',
+          'md:transition-all md:duration-700 md:delay-150 md:ease-out',
+          isVisible ? 'md:translate-x-0 md:opacity-100' : 'md:translate-x-20 md:opacity-0',
         ]"
-        class="relative z-10 p-8 md:p-12 rounded-[2.5rem] shadow-2xl max-w-xl border border-white/5 backdrop-blur-md"
       >
         <h3 v-if="name" class="text-3xl font-bold text-white mb-1">{{ name }}</h3>
         <p
