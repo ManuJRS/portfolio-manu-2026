@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { HeroMinimalProps } from '../types/hero-minimal.model'
 import TextEffect from '@/shared/ui/TextEffect.vue'
+import { ArrowDown } from 'lucide-vue-next'
+
 
 defineProps<HeroMinimalProps>()
 
@@ -58,15 +60,21 @@ function getIconName(icon: string) {
 
       <div class="flex flex-col mb-20">
         <h1
-          class="md:text-7xl text-5xl md:text-[14rem] font-bold uppercase ultra-tight text-white mb-4 md:mb-10"
+          class="md:text-7xl text-5xl md:text-[14rem] font-bold uppercase ultra-tight text-white mb-4 md:mb-10 mt-4"
         >
           Front — End
         </h1>
-        <h1
-          class="text-6xl md:text-[14rem] font-bold uppercase ultra-tight text-white/10 outline-text"
-        >
-          <span class="bg-white text-[#161616]">Dev</span>eloper
-        </h1>
+        <span class="relative inline-block px-1 mb-1">
+          <span
+            aria-hidden="true"
+            class="absolute inset-0 z-0 bg-white hero-manu-bg-wipe hero-manu-bg-wipe--delayed pointer-events-none"
+          />
+          <h1
+            class="text-6xl md:text-[14rem] font-bold uppercase ultra-tight text-white/10 outline-text"
+          >
+            <span class="relative z-10 text-[#161616]">Developer</span>
+          </h1>
+        </span>
       </div>
 
       <div class="flex flex-col md:flex-row justify-between items-end gap-12">
@@ -94,7 +102,7 @@ function getIconName(icon: string) {
         </div>
 
         <div v-if="scrollText" class="flex flex-col items-end">
-          <span class="material-symbols-outlined text-4xl mb-2 animate-bounce">arrow_downward</span>
+          <ArrowDown class="w-8 h-8 mb-2 animate-bounce" />
           <TextEffect
             v-if="scrollText"
             :text="scrollText"
