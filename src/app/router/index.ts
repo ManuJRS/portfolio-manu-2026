@@ -18,6 +18,23 @@ const router = createRouter({
       name: 'web-develop',
       component: () => import('@/features/web-develop/views/WebDevelopView.vue'),
     },
+    /** Compatibilidad: antes los artículos vivían en /desarrollo-web/blog/:slug */
+    {
+      path: '/desarrollo-web/blog/:slug',
+      redirect: (to) => ({
+        path: `/desarrollo-web/${String(to.params.slug)}`,
+      }),
+    },
+    {
+      path: '/desarrollo-web/blog',
+      name: 'blog-preview',
+      component: () => import('@/features/blog/views/BlogPreviewView.vue'),
+    },
+    {
+      path: '/desarrollo-web/:slug',
+      name: 'blog-article',
+      component: () => import('@/features/blog/views/BlogArticleView.vue'),
+    },
     {
       path: '/:locale(es|en)/projects/:slug',
       name: 'project-detail',

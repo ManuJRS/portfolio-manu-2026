@@ -10,5 +10,7 @@ export type ProfileHighlightProps = {
   description?: string
   imageAlt?: string
   imageUrl?: string
+  /** Si está definido, se muestra en lugar de la imagen (mismo slot visual). */
+  videoUrl?: string
   socialLinks?: ProfileHighlightSocialLink[]
 }

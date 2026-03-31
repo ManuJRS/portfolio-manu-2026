@@ -86,6 +86,16 @@ function mapSection(block: StrapiWebDevelopDynamicZoneBlock): WebDevelopSection 
   return null
 }
 
+function unwrapSeoField(
+  raw: StrapiSeoDto | { data: StrapiSeoDto | null } | null | undefined,
+): StrapiSeoDto | null {
+  if (raw == null) return null
+  if (typeof raw === 'object' && 'data' in raw) {
+    return (raw as { data: StrapiSeoDto | null }).data ?? null
+  }
+  return raw as StrapiSeoDto
+}
+
 function mapSeoFromStrapi(dto: StrapiSeoDto | null | undefined): SeoMeta | undefined {
   if (!dto) return undefined
   const meta: SeoMeta = {}
@@ -113,7 +123,7 @@ function mapDocument(doc: StrapiWebDevelopDocument): WebDevelopPage {
     }
   }
 
-  const seo = mapSeoFromStrapi(doc.seo ?? doc.Seo)
+  const seo = mapSeoFromStrapi(unwrapSeoField(doc.seo ?? doc.Seo))
 
   return {
     id: doc.id,

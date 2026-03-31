@@ -5,12 +5,9 @@ import { cn } from '@/shared/utils/cn'
 
 const props = withDefaults(
   defineProps<{
-    /** Texto visible del botón */
     label: string
     variant?: 'primary' | 'secondary'
-    /** Clases Tailwind extra para el contenedor */
     class?: string
-    /** Si se define, se renderiza como `<a>` en lugar de `<button>` */
     href?: string
     type?: 'button' | 'submit' | 'reset'
   }>(),
@@ -28,7 +25,7 @@ const tag = computed(() => (props.href ? 'a' : 'button'))
 
 const rootClass = computed(() =>
   cn(
-    'group relative inline-flex h-auto cursor-pointer min-w-[16.5rem] rounded-full border-none bg-background p-1 outline-none transition-[box-shadow] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+    'group relative inline-flex h-auto cursor-pointer min-w-[16.5rem] rounded-full border-none p-1 outline-none transition-[box-shadow] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background',
     props.variant === 'secondary' &&
       'border border-outline-variant bg-transparent focus-visible:ring-offset-surface-container-lowest',
     props.class,

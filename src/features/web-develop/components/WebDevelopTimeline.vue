@@ -5,11 +5,11 @@ defineProps<WebDevelopTimelineProps>()
 </script>
 
 <template>
-  <section class="px-6 py-16 md:py-32">
-    <div class="mx-auto max-w-7xl">
+  <section class="bg-surface-container-lowest py-16 md:py-32">
+    <div class="container mx-auto px-4 md:px-6 lg:px-8">
       <div
         v-if="title || description"
-        class="mb-16 max-w-2xl text-center md:mb-20 text-left"
+        class="mb-16 max-w-5xl text-center md:mb-20 text-left"
       >
         <h2 v-if="title" class="font-headline text-3xl font-semibold md:text-4xl">{{ title }}</h2>
         <p v-if="description" class="mt-4 text-lg text-on-surface-variant">{{ description }}</p>

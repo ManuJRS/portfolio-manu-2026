@@ -14,8 +14,9 @@ export type StrapiWebDevelopDocument = {
   title?: string
   slug?: string
   sections?: StrapiWebDevelopDynamicZoneBlock[]
-  Seo?: StrapiSeoDto | null
-  seo?: StrapiSeoDto | null
+  /** Componente SEO en Strapi; a veces viene envuelto en `{ data }` */
+  Seo?: StrapiSeoDto | { data: StrapiSeoDto | null } | null
+  seo?: StrapiSeoDto | { data: StrapiSeoDto | null } | null
 }
 
 export type StrapiWebDevelopHeroBlockDto = {
@@ -25,6 +26,8 @@ export type StrapiWebDevelopHeroBlockDto = {
   Tag?: string | null
   TextBtn?: string | null
   UrlBtn?: string | null
+  MediaHero?: StrapiMediaDto | { data: StrapiMediaDto | null } | null
+  mediaHero?: StrapiMediaDto | { data: StrapiMediaDto | null } | null
 }
 
 export type StrapiWebDevelopVideoFeatureItemDto = {
@@ -65,8 +68,14 @@ export type StrapiWebDevelopBlogEntryDto = {
   updatedAt?: string
   publishedAt?: string | null
   title?: string | null
+  Title?: string | null
   slug?: string | null
+  Slug?: string | null
   descriptionProyect?: string | null
+  DescriptionProyect?: string | null
+  ImgPreview?: StrapiMediaDto | { data: StrapiMediaDto | null } | null
+  imgPreview?: StrapiMediaDto | { data: StrapiMediaDto | null } | null
+  img_preview?: StrapiMediaDto | { data: StrapiMediaDto | null } | null
 }
 
 export type StrapiWebDevelopResourcesBlockDto = {
@@ -78,6 +87,12 @@ export type StrapiWebDevelopResourcesBlockDto = {
   btnUrl?: string | null
   /** Texto del CTA principal */
   btnText?: string | null
+  /** Relación con artículos de blog (nombre en API Strapi); a veces viene como `{ data: [...] }` */
+  blogs_articles?:
+    | StrapiWebDevelopBlogEntryDto[]
+    | { data: StrapiWebDevelopBlogEntryDto[] | StrapiWebDevelopBlogEntryDto | null }
+    | null
+  /** Nombre legacy / alternativo */
   blogs?: StrapiWebDevelopBlogEntryDto[] | null
 }
 
