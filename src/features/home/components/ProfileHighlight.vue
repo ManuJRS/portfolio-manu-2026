@@ -1,7 +1,54 @@
 <script setup lang="ts">
 import type { ProfileHighlightProps } from '../types/profile-highlight.model'
 
-defineProps<ProfileHighlightProps>()
+import { onMounted, onUnmounted, ref, watch } from 'vue'
+
+const props = defineProps<ProfileHighlightProps>()
+
+const isVisible = ref(false)
+const sectionRef = ref<HTMLElement | null>(null)
+const profileVideoRef = ref<HTMLVideoElement | null>(null)
+
+let io: IntersectionObserver | null = null
+
+onMounted(() => {
+  io = new IntersectionObserver(
+    ([entry]) => {
+      if (entry?.isIntersecting) {
+        isVisible.value = true
+      }
+    },
+    { threshold: 0.15, rootMargin: '0px 0px 8% 0px' },
+  )
+
+  if (sectionRef.value) {
+    io.observe(sectionRef.value)
+  }
+})
+
+onUnmounted(() => {
+  io?.disconnect()
+})
+
+watch(
+  [() => props.videoUrl, isVisible],
+  ([url, visible]) => {
+    if (!url || !visible) return
+    const el = profileVideoRef.value
+    if (el) {
+      void el.play().catch(() => {})
+    }
+  },
+  { flush: 'post' },
+)
+
+watch(
+  () => props.videoUrl,
+  (url) => {
+    if (!url) return
+    void profileVideoRef.value?.load()
+  },
+)
 
 function getIconName(icon: string) {
   const map: Record<string, string> = {
@@ -14,20 +61,44 @@ function getIconName(icon: string) {
 </script>
 
 <template>
-  <section class="max-w-6xl mx-auto w-full px-6">
-    <div class="relative w-full flex flex-col md:flex-row items-center justify-center py-20">
-      <div
-        class="relative z-0 md:-mr-24 mb-8 md:mb-0 w-full max-w-[480px] aspect-square rounded-3xl overflow-hidden bg-[#c4a682]"
-      >
+  <section ref="sectionRef" class="max-w-6xl mx-auto w-full px-6">
+    <div
+      class="relative w-full flex flex-col md:flex-row items-center justify-center gap-12 md:gap-x-3 py-20"
+    >
+    <div
+      :class="[
+        'relative z-0 min-h-0 md:-mr-16 w-full max-w-[480px] aspect-square rounded-3xl overflow-hidden bg-[#c4a682]',
+        'transition-all duration-700 ease-out',
+        isVisible ? 'translate-x-0 opacity-100' : '-translate-x-20 opacity-0',
+      ]"
+    >
         <img
           v-if="imageUrl"
           :src="imageUrl"
           :alt="imageAlt ?? ''"
-          class="w-full h-full object-cover grayscale brightness-90"
+          class="absolute inset-0 h-full w-full object-cover grayscale brightness-90"
+        />
+        <video
+          v-else-if="videoUrl"
+          ref="profileVideoRef"
+          :src="videoUrl"
+          class="absolute inset-0 h-full w-full object-cover grayscale brightness-90"
+          autoplay
+          muted
+          loop
+          playsinline
+          webkit-playsinline
+          preload="auto"
+          :aria-hidden="!imageAlt"
+          :aria-label="imageAlt || undefined"
         />
       </div>
 
       <div
+        :class="[
+          'transition-all duration-700 ease-out delay-150',
+          isVisible ? 'translate-x-0 opacity-100' : 'translate-x-20 opacity-0'
+        ]"
         class="relative z-10 p-8 md:p-12 rounded-[2.5rem] shadow-2xl max-w-xl border border-white/5 backdrop-blur-md"
       >
         <h3 v-if="name" class="text-3xl font-bold text-white mb-1">{{ name }}</h3>
@@ -53,7 +124,19 @@ function getIconName(icon: string) {
             :aria-label="link.label"
             class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#161616] hover:scale-110 transition-transform"
           >
-            <svg v-if="link.icon === 'upwork'" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"><ellipse cx="184.5" cy="234.5" rx="57.5" ry="56.5" transform="translate(-546.174 -763.565) scale(4.34783)"/><path d="M345.516 181.708c-42.168 0-65.774 27.481-72.532 55.773-7.658-14.416-13.335-33.698-17.75-51.628H196.94v72.531c0 26.31-11.984 45.772-35.41 45.772-23.427 0-36.852-19.462-36.852-45.772l.27-72.531H91.34v72.531c0 21.174 6.848 40.366 19.372 54.061 12.884 14.146 30.454 21.534 50.817 21.534 40.545 0 68.837-31.085 68.837-75.595V209.64c4.235 16.038 14.326 46.853 33.608 73.884l-18.02 102.625h34.148l11.893-72.712c3.875 3.244 8.02 6.127 12.434 8.74 11.443 7.208 24.508 11.263 38.023 11.713 0 0 2.073.09 3.154.09 41.807 0 75.054-32.346 75.054-76.045 0-43.7-33.337-76.226-75.144-76.226m0 122.358c-25.86 0-42.979-20.003-47.754-27.752 6.127-49.015 24.057-64.512 47.754-64.512 23.426 0 41.626 18.741 41.626 46.132 0 27.39-18.2 46.132-41.626 46.132" fill="#fff" fill-rule="nonzero"/></svg>
+            <svg
+              v-if="link.icon === 'upwork'"
+              class="size-5 shrink-0"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="12" fill="#fff" />
+              <path
+                fill="#161616"
+                d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.405-.002-2.543-1.143-2.545-2.548V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z"
+              />
+            </svg>
 
             <svg
               v-else-if="link.icon === 'github'"
