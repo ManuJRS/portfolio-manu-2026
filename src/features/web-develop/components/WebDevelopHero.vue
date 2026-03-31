@@ -36,16 +36,12 @@ function openAuthModal(e: MouseEvent) {
 
 <template>
   <section
-    class="relative flex min-h-[60vh] items-center justify-center overflow-hidden bg-surface-container-low pt-20 pb-24 md:min-h-[40vh] md:pb-28"
+    class="relative flex min-h-[60vh] items-center justify-center overflow-hidden bg-surface-container-lowest pt-20 pb-24 md:min-h-[40vh] md:pb-28"
   >
-  <!-- <FuzzyHeroBackground overlay-only class="z-[1]" />
-    <div class="absolute inset-0 grid-pattern" /> -->
-    <div
-      class="pointer-events-none absolute left-0 top-0 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-[120px]"
-    />
+
 
     <div
-      class="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-12 px-8 lg:grid-cols-2 lg:gap-16"
+      class="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16"
     >
       <div class="text-center lg:text-left">
         <div

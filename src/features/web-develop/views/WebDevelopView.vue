@@ -3,6 +3,7 @@ import { ChevronRight } from 'lucide-vue-next'
 import { computed, ref, watch } from 'vue'
 import PageSeo from '@/shared/ui/PageSeo.vue'
 import WebDevelopBlockRenderer from '../components/WebDevelopBlockRenderer.vue'
+import WebDevelopHero from '../components/WebDevelopHero.vue'
 import WebDevelopResources from '../components/WebDevelopResources.vue'
 import WebDevelopVideo from '../components/WebDevelopVideo.vue'
 import WebDevelopTimeline from '../components/WebDevelopTimeline.vue'
@@ -16,6 +17,7 @@ const { data, loading, error, refresh } = useWebDevelop()
 
 function isSidebarManaged(s: WebDevelopSection): boolean {
   return (
+    s.component === 'components.web-develop-hero' ||
     s.component === 'components.web-develop-resources' ||
     s.component === 'components.web-develop-video' ||
     s.component === 'components.web-develop-timeline' ||
@@ -25,6 +27,11 @@ function isSidebarManaged(s: WebDevelopSection): boolean {
 
 const introSections = computed(
   () => data.value?.sections.filter((s) => !isSidebarManaged(s)) ?? [],
+)
+
+const heroSection = computed(
+  () =>
+    data.value?.sections.find((s) => s.component === 'components.web-develop-hero') ?? null,
 )
 
 const resourcesSection = computed(
@@ -51,6 +58,7 @@ const videoSection = computed(
 const hasSidebarContent = computed(
   () =>
     !!(
+      heroSection.value ||
       resourcesSection.value ||
       videoSection.value ||
       timelineSection.value ||
@@ -69,7 +77,12 @@ watch(
     if (!page || panelInitialized.value) return
     panelInitialized.value = true
     const hasRes = !!resourcesSection.value
-    const hasQuote = !!(videoSection.value || timelineSection.value || portfolioSection.value)
+    const hasQuote = !!(
+      heroSection.value ||
+      videoSection.value ||
+      timelineSection.value ||
+      portfolioSection.value
+    )
     if (!hasRes && hasQuote) {
       activePanel.value = 'quote'
     } else if (hasRes) {
@@ -138,7 +151,7 @@ function navButtonClass(active: boolean) {
             class="mx-auto flex max-w-auto flex-col gap-0 lg:flex-row lg:gap-0 lg:min-h-[min(80vh,1200px)]"
           >
             <aside
-              class="hidden shrink-0 border-outline-variant/15 lg:block lg:w-64 lg:border-r lg:border-outline-variant/15 lg:px-4 lg:py-10 xl:w-72"
+              class="hidden shrink-0 border-outline-variant/15 lg:block lg:w-64 lg:border-r lg:border-outline-variant/15 lg:px-2 lg:py-10 xl:w-58"
               aria-label="Secciones de desarrollo web"
             >
               <nav
@@ -184,11 +197,12 @@ function navButtonClass(active: boolean) {
                 </p>
               </div>
               <div v-show="activePanel === 'quote'">
+                <WebDevelopHero v-if="heroSection" v-bind="heroSection.props" />
                 <WebDevelopVideo v-if="videoSection" v-bind="videoSection.props" />
                 <WebDevelopTimeline v-if="timelineSection" v-bind="timelineSection.props" />
                 <PortfolioPreview v-if="portfolioSection" v-bind="portfolioSection.props" />
                 <p
-                  v-if="!videoSection && !timelineSection && !portfolioSection"
+                  v-if="!heroSection && !videoSection && !timelineSection && !portfolioSection"
                   class="px-6 py-20 text-center text-sm text-on-surface-variant"
                 >
                   No hay contenido en esta sección.
