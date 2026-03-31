@@ -87,6 +87,10 @@
     animation: hero-manu-bg-wipe 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
 
+  .hero-manu-bg-wipe--delayed {
+    animation-delay: 0.65s;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .hero-manu-bg-wipe {
       animation: none;

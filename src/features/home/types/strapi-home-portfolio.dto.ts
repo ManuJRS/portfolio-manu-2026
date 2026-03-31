@@ -65,6 +65,8 @@ export type StrapiImageDto = {
   name?: string
   alternativeText?: string | null
   url: string
+  /** Presente en uploads de Strapi; sirve para distinguir vídeo vs imagen en el mismo campo media. */
+  mime?: string | null
   formats?: {
     thumbnail?: { url: string }
     small?: { url: string }
@@ -80,6 +82,8 @@ export type StrapiProfileHighlightBlockDto = {
   description?: string | null
   imageAlt?: string | null
   image?: StrapiImageDto[] | null
+  /** Vídeo opcional (misma forma de media que `image` en Strapi). */
+  video?: StrapiImageDto[] | null
   socialLinks?: StrapiSocialLinkDto[] | null
 }
 

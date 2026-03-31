@@ -11,7 +11,12 @@ export function buildHomeQuery(locale: AppLocale = 'es'): string {
           on: {
             'components.hero-minimalf': true,
             'components.profile-highlight': {
-              populate: ['image', 'socialLinks'],
+              // Solo claves que existan en el schema de Strapi para este componente.
+              // Si añades un campo media para vídeo, usa aquí su nombre API exacto (p. ej. `video: true`).
+              populate: {
+                image: true,
+                socialLinks: true,
+              },
             },
             'components.stack-grid': {
               populate: ['item'],
