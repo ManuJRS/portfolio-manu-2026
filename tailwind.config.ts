@@ -56,6 +56,9 @@ export default {
         'on-error-container': '#ffdad6',
         'on-secondary-fixed': '#1b1c1c',
       },
+      maxWidth: {
+        '8xl': '88rem',
+      },
       fontFamily: {
         headline: ['Space Grotesk', 'sans-serif'],
         body: ['Space Grotesk', 'sans-serif'],
