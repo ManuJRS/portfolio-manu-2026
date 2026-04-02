@@ -8,6 +8,9 @@ export type WebDevelopHeroProps = {
   tag: string
   buttonText: string
   buttonUrl: string
-  /** `MediaHero` en Strapi (vídeo o imagen) */
   heroMedia?: WebDevelopHeroMedia
+  rotatingPhrases?: string[]
+  description?: string
+  videoAriaLabel?: string
+  text?: string
 }
