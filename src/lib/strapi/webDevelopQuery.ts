@@ -23,6 +23,27 @@ export function buildWebDevelopQuery(): string {
               },
             },
             'components.portfolio-preview': { populate: '*' },
+            'components.card-solution': {
+              populate: {
+                Cards: {
+                  populate: ['image'],
+                },
+              },
+            },
+            'components.cards-section': {
+              populate: '*',
+            },
+            'components.how-i-do': {
+              populate: '*',
+            },
+            'components.comment-secction': true,
+            'components.cards-title': {
+              populate: '*',
+            },
+            'components.logos': {
+              populate: '*',
+            },
+            'components.form-web': true,
           },
         },
       },
