@@ -36,6 +36,7 @@ export function mapWebDevelopHeroFromStrapi(block: StrapiWebDevelopHeroBlockDto)
     tag: block.Tag?.trim() || '',
     buttonText: block.TextBtn?.trim() || 'Solicitar proyecto',
     buttonUrl: block.UrlBtn?.trim() || '#',
+    text: block.text?.trim() || '',
     ...(heroMedia && { heroMedia }),
   }
 }

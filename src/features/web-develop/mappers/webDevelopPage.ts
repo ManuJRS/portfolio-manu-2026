@@ -9,6 +9,13 @@ import type {
   StrapiWebDevelopTimelineBlockDto,
   StrapiWebDevelopResourcesBlockDto,
   StrapiPortfolioPreviewBlockDto,
+  StrapiCardSolutionBlockDto,
+  StrapiCardsSectionBlockDto,
+  StrapiHowIDoBlockDto,
+  StrapiCommentSecctionBlockDto,
+  StrapiCardsTitleBlockDto,
+  StrapiLogosBlockDto,
+  StrapiFormWebBlockDto,
 } from '../types/strapi-web-develop.dto'
 import type { WebDevelopPage, WebDevelopSection } from '../types/web-develop-page.model'
 import { mapWebDevelopHeroFromStrapi } from './webDevelopHero'
@@ -16,6 +23,13 @@ import { mapWebDevelopVideoFromStrapi } from './webDevelopVideo'
 import { mapWebDevelopTimelineFromStrapi } from './webDevelopTimeline'
 import { mapWebDevelopResourcesFromStrapi } from './webDevelopResources'
 import { mapPortfolioPreviewFromStrapi } from './portfolioPreview'
+import { mapCardSolutionFromStrapi } from './mapCardSolution'
+import { mapCardsSectionFromStrapi } from './mapCardsSection'
+import { mapHowIDoFromStrapi } from './mapHowIDo'
+import { mapCommentSecctionFromStrapi } from './mapCommentSecction'
+import { mapCardsTitleFromStrapi } from './mapCardsTitle'
+import { mapLogosFromStrapi } from './mapLogos'
+import { mapFormWebFromStrapi } from './mapFormWeb'
 
 function isWebDevelopHeroBlock(
   block: StrapiWebDevelopDynamicZoneBlock,
@@ -45,6 +59,48 @@ function isPortfolioPreviewBlock(
   block: StrapiWebDevelopDynamicZoneBlock,
 ): block is StrapiPortfolioPreviewBlockDto {
   return block.__component === 'components.portfolio-preview'
+}
+
+function isCardSolutionBlock(
+  block: StrapiWebDevelopDynamicZoneBlock,
+): block is StrapiCardSolutionBlockDto {
+  return block.__component === 'components.card-solution'
+}
+
+function isCardsSectionBlock(
+  block: StrapiWebDevelopDynamicZoneBlock,
+): block is StrapiCardsSectionBlockDto {
+  return block.__component === 'components.cards-section'
+}
+
+function isHowIDoBlock(
+  block: StrapiWebDevelopDynamicZoneBlock,
+): block is StrapiHowIDoBlockDto {
+  return block.__component === 'components.how-i-do'
+}
+
+function isCommentSecctionBlock(
+  block: StrapiWebDevelopDynamicZoneBlock,
+): block is StrapiCommentSecctionBlockDto {
+  return block.__component === 'components.comment-secction'
+}
+
+function isCardsTitleBlock(
+  block: StrapiWebDevelopDynamicZoneBlock,
+): block is StrapiCardsTitleBlockDto {
+  return block.__component === 'components.cards-title'
+}
+
+function isLogosBlock(
+  block: StrapiWebDevelopDynamicZoneBlock,
+): block is StrapiLogosBlockDto {
+  return block.__component === 'components.logos'
+}
+
+function isFormWebBlock(
+  block: StrapiWebDevelopDynamicZoneBlock,
+): block is StrapiFormWebBlockDto {
+  return block.__component === 'components.form-web'
 }
 
 function mapSection(block: StrapiWebDevelopDynamicZoneBlock): WebDevelopSection | null {
@@ -81,6 +137,55 @@ function mapSection(block: StrapiWebDevelopDynamicZoneBlock): WebDevelopSection 
       component: 'components.portfolio-preview',
       id: `components.portfolio-preview-${block.id}`,
       props: mapPortfolioPreviewFromStrapi(block),
+    }
+  }
+  if (isCardSolutionBlock(block)) {
+    return {
+      component: 'components.card-solution',
+      id: `components.card-solution-${block.id}`,
+      props: mapCardSolutionFromStrapi(block),
+    }
+  }
+  if (isCardsSectionBlock(block)) {
+    return {
+      component: 'components.cards-section',
+      id: `components.cards-section-${block.id}`,
+      props: mapCardsSectionFromStrapi(block),
+    }
+  }
+  if (isHowIDoBlock(block)) {
+    return {
+      component: 'components.how-i-do',
+      id: `components.how-i-do-${block.id}`,
+      props: mapHowIDoFromStrapi(block),
+    }
+  }
+  if (isCommentSecctionBlock(block)) {
+    return {
+      component: 'components.comment-secction',
+      id: `components.comment-secction-${block.id}`,
+      props: mapCommentSecctionFromStrapi(block),
+    }
+  }
+  if (isCardsTitleBlock(block)) {
+    return {
+      component: 'components.cards-title',
+      id: `components.cards-title-${block.id}`,
+      props: mapCardsTitleFromStrapi(block),
+    }
+  }
+  if (isLogosBlock(block)) {
+    return {
+      component: 'components.logos',
+      id: `components.logos-${block.id}`,
+      props: mapLogosFromStrapi(block),
+    }
+  }
+  if (isFormWebBlock(block)) {
+    return {
+      component: 'components.form-web',
+      id: `components.form-web-${block.id}`,
+      props: mapFormWebFromStrapi(block),
     }
   }
   return null
