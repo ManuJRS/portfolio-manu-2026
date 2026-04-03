@@ -156,4 +156,78 @@ import TitleEffect from '@/shared/ui/TitleEffect.vue'
 
 El contenido va dentro del slot (entre las etiquetas del componente). El color del texto se define con las clases que apliques (`text-white`, `text-on-surface-variant`, etc.).
 
-> Todos los efectos respetan `prefers-reduced-motion` y reducen o eliminan las animaciones cuando el usuario lo tiene activado.
+---
+
+### HeroMorphingCursorText (morphing cursor)
+
+Efecto tipo “cursor morphing”: al pasar el ratón sobre el texto aparece un círculo que sigue al puntero y muestra un **segundo texto** con colores invertidos respecto al fondo. Está basado en `src/features/web-develop/components/cursor-effect.mdc` (referencia React) y vive en el feature de desarrollo web.
+
+**Importación**
+
+```vue
+<script setup lang="ts">
+import HeroMorphingCursorText from '@/features/web-develop/components/HeroMorphingCursorText.vue'
+import { usePreferredReducedMotion } from '@vueuse/core'
+
+const prefersReducedMotion = usePreferredReducedMotion()
+</script>
+```
+
+**Uso recomendado con accesibilidad**
+
+`usePreferredReducedMotion()` devuelve `'reduce' | 'no-preference'` (no un booleano). Conviene mostrar texto estático si el usuario pide menos movimiento, igual que en `WebDevelopHero.vue`:
+
+```vue
+<template>
+  <h2 v-if="prefersReducedMotion === 'reduce'" class="text-2xl font-bold text-white">
+    {{ titulo }}
+  </h2>
+  <HeroMorphingCursorText
+    v-else
+    as="h2"
+    :text="titulo"
+    hover-text="Texto alterno"
+    text-class="text-2xl font-bold text-white"
+    hover-text-class="text-2xl font-bold text-on-primary"
+    :circle-size="160"
+  />
+</template>
+```
+
+**Texto sobre fondo oscuro** (`variant="on-dark"`, valor por defecto): el círculo es blanco y el texto interior debe ir en **`text-on-primary`** (u otro oscuro). El texto base suele ser **`text-white`**.
+
+**Texto sobre fondo claro** (botón blanco, chip, etc.): usa **`variant="on-light"`** (círculo oscuro con `bg-on-primary`) y **`compact`** para que el contenedor sea en línea. El texto interior del círculo debe ser **`text-white`**.
+
+```vue
+<button type="button" class="flex items-center gap-2 bg-white px-8 py-4 text-on-primary">
+  <HeroMorphingCursorText
+    as="span"
+    variant="on-light"
+    compact
+    text="Solicitar"
+    hover-text="Hablemos"
+    :circle-size="120"
+    text-class="text-sm font-bold uppercase tracking-widest text-on-primary"
+    hover-text-class="text-sm font-bold uppercase tracking-widest text-white"
+  />
+</button>
+```
+
+**Encabezados y semántica**: usa **`as="h1"`** solo una vez por página (título principal). En el resto de bloques usa `h2`, `h3`, `p` o `span` según corresponda.
+
+**Ajustar el tamaño del círculo**: prop **`circle-size`** (píxeles). Textos grandes → valores mayores (p. ej. `200`); CTAs o etiquetas pequeñas → menores (p. ej. `110`–`140`).
+
+| Prop              | Tipo | Default | Descripción |
+|-------------------|------|---------|-------------|
+| `text`            | `string` | *requerido* | Texto visible sin hover |
+| `hoverText`       | `string` | según uso | Texto dentro del círculo |
+| `as`              | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'p' \| 'span' \| 'div'` | `'h1'` | Etiqueta del contenedor |
+| `variant`         | `'on-dark' \| 'on-light'` | `'on-dark'` | Círculo claro u oscuro según el fondo |
+| `compact`         | `boolean` | `false` | Contenedor inline (CTA, texto en fila) |
+| `circleSize`      | `number` | `200` | Diámetro del círculo al hacer hover (px) |
+| `textClass`       | `string` | `''` | Clases Tailwind del texto base (tamaño, peso, color, márgenes) |
+| `hoverTextClass`  | `string` | `''` | Clases del texto en el círculo; deben coincidir en tipografía con `textClass` y usar el color adecuado (`text-on-primary` en `on-dark`, `text-white` en `on-light`). Si se omite, hay estilos por defecto según `variant` |
+
+> **Loader**, **TextEffect** y **TitleEffect** respetan `prefers-reduced-motion` por sí solos. **HeroMorphingCursorText** no: debes bifurcar en el padre con `usePreferredReducedMotion === 'reduce'` (como en el ejemplo anterior).
+
+> Referencia en el proyecto: `WebDevelopHero.vue` (título `on-dark` y botón CTA `on-light` con `compact`).
