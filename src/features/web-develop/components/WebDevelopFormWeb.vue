@@ -155,7 +155,7 @@ defineExpose({
 
           <button
             type="submit"
-            class="rounded-DEFAULT w-full bg-primary py-6 text-sm font-bold uppercase tracking-widest text-on-primary transition-opacity hover:opacity-90"
+            class="rounded-DEFAULT w-full bg-primary py-6 text-sm font-bold uppercase tracking-widest text-on-primary transition-opacity hover:opacity-90 hover:cursor-pointer"
           >
             {{ btnText }}
           </button>
