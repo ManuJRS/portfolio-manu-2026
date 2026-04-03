@@ -16,7 +16,7 @@ const imgClass = computed(() =>
 
 <template>
   <article
-    class="group relative flex min-h-[420px] flex-col justify-between overflow-hidden border border-outline-variant/10 bg-surface p-10 transition-all duration-500 hover:border-white/20 md:p-12"
+    class="group relative flex min-h-[420px] flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-surface-container p-10 transition-all duration-500 md:p-12"
   >
     <div
       class="pointer-events-none absolute bottom-0 right-0 z-[1] flex items-end justify-end overflow-visible"
@@ -36,7 +36,7 @@ const imgClass = computed(() =>
     </div>
 
     <div
-      class="absolute -right-16 -top-16 h-64 w-64 rounded-full bg-primary/5 blur-[100px] transition-opacity duration-500 group-hover:bg-primary/10"
+      class="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-primary/5 blur-[50px] transition-opacity duration-500 group-hover:bg-primary/10"
       aria-hidden="true"
     />
 
