@@ -52,10 +52,15 @@ const error = ref(false)
 const rawId = useId()
 const fieldId = (suffix: string) => `${rawId.replace(/:/g, '')}-${suffix}`
 
+const isFilledString = (value: FormDataEntryValue | null): value is string =>
+  typeof value === 'string' && value.trim().length > 0
+
 /** Netlify Forms: cuerpo como URLSearchParams; fetch añade Content-Type + charset (no fijar header a mano). */
 const buildNetlifyBody = (form: HTMLFormElement) => {
   const params = new URLSearchParams()
   for (const [key, value] of new FormData(form).entries()) {
+    // El honeypot no se envía al backend; solo se usa como filtro local.
+    if (key === 'b_website') continue
     params.append(key, typeof value === 'string' ? value : String(value))
   }
   return params
@@ -88,13 +93,33 @@ const submitClass = cn(
 )
 
 const handleSubmit = async () => {
-  if (!formRef.value) return
+  if (!formRef.value || loading.value) return
 
+  // Deshabilitar el botón de inmediato para evitar envíos dobles.
   loading.value = true
   success.value = false
   error.value = false
 
   try {
+    const formData = new FormData(formRef.value)
+    const honeypot = formData.get('b_website')
+
+    // Bot detectado: cancelar sin emitir petición HTTP.
+    if (typeof honeypot === 'string' && honeypot.trim().length > 0) {
+      return
+    }
+
+    const name = formData.get('name')
+    const email = formData.get('email')
+    const message = formData.get('message')
+
+    // Validación estricta: no enviar null, undefined ni cadenas vacías.
+    if (!isFilledString(name) || !isFilledString(email) || !isFilledString(message)) {
+      error.value = true
+      emit('error')
+      return
+    }
+
     const response = await fetch(NETLIFY_FORM_POST_PATH, {
       method: 'POST',
       body: buildNetlifyBody(formRef.value),
@@ -130,6 +155,17 @@ const handleSubmit = async () => {
     @submit.prevent="handleSubmit"
   >
     <input type="hidden" name="form-name" value="contact" />
+
+    <!-- Honeypot: oculto a humanos; los bots suelen rellenarlo. -->
+    <input
+      type="text"
+      name="b_website"
+      tabindex="-1"
+      autocomplete="off"
+      aria-hidden="true"
+      class="absolute -left-[9999px] h-0 w-0 opacity-0"
+      style="display: none"
+    />
 
     <div class="space-y-2">
       <label
