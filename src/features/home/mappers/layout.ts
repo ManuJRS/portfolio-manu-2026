@@ -1,5 +1,17 @@
-import type { StrapiLayoutDto, StrapiLayoutResponse } from '../types/strapi-layout.dto'
-import type { LayoutContent, LayoutCopyright } from '../types/layout.model'
+import type {
+  StrapiLayoutDto,
+  StrapiLayoutResponse,
+  StrapiNavDto,
+  StrapiNavItemDto,
+  StrapiNavSvg,
+} from '../types/strapi-layout.dto'
+import type {
+  LayoutContent,
+  LayoutCopyright,
+  LayoutNav,
+  LayoutNavItem,
+  NavIconKey,
+} from '../types/layout.model'
 
 /**
  * Separa el año (4 dígitos) del resto del texto en `fotterCopyrightTYear`.
@@ -19,6 +31,33 @@ export function parseCopyrightYear(value: string): LayoutCopyright {
   return { year, text }
 }
 
+function mapNavIcon(svg: string | null | undefined): NavIconKey | null {
+  if (svg === 'house' || svg === 'person') return svg
+  return null
+}
+
+function mapNavItem(dto: StrapiNavItemDto): LayoutNavItem | null {
+  const name = dto.name?.trim()
+  const icon = mapNavIcon(dto.svg as StrapiNavSvg | string | null | undefined)
+  if (!name || !icon) return null
+  return { name, icon }
+}
+
+export function mapLayoutNavFromStrapi(nav: StrapiNavDto | null | undefined): LayoutNav {
+  if (!nav) {
+    return { showLangs: true, items: [] }
+  }
+
+  const items = (nav.items ?? [])
+    .map(mapNavItem)
+    .filter((item): item is LayoutNavItem => item !== null)
+
+  return {
+    showLangs: Boolean(nav.showlangs),
+    items,
+  }
+}
+
 export function mapLayoutFromStrapi(response: StrapiLayoutResponse): LayoutContent | null {
   const dto = response.data
   if (!dto) return null
@@ -31,5 +70,6 @@ function mapLayoutDto(dto: StrapiLayoutDto): LayoutContent {
     titleLeft: dto.fotterTitleLeft?.trim() ?? '',
     messageRight: dto.fotterMessageRigth?.trim() ?? '',
     copyright: parseCopyrightYear(copyrightRaw),
+    nav: mapLayoutNavFromStrapi(dto.nav),
   }
 }
