@@ -15,9 +15,22 @@ export type LayoutNav = {
   items: LayoutNavItem[]
 }
 
+export type LayoutFloatingItem = {
+  text: string
+  url: string
+}
+
+export type LayoutFloatingMenu = {
+  showFloatingBtn: boolean
+  showContactItem: boolean
+  showShareItem: boolean
+  items: LayoutFloatingItem[]
+}
+
 export type LayoutContent = {
   titleLeft: string
   messageRight: string
   copyright: LayoutCopyright
   nav: LayoutNav
+  floating: LayoutFloatingMenu
 }
