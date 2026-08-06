@@ -1,4 +1,5 @@
 import type {
+  StrapiFloatingItemDto,
   StrapiLayoutDto,
   StrapiLayoutResponse,
   StrapiNavDto,
@@ -8,6 +9,8 @@ import type {
 import type {
   LayoutContent,
   LayoutCopyright,
+  LayoutFloatingItem,
+  LayoutFloatingMenu,
   LayoutNav,
   LayoutNavItem,
   NavIconKey,
@@ -58,6 +61,33 @@ export function mapLayoutNavFromStrapi(nav: StrapiNavDto | null | undefined): La
   }
 }
 
+function mapFloatingItem(dto: StrapiFloatingItemDto): LayoutFloatingItem | null {
+  const text = dto.text?.trim()
+  if (!text) return null
+  return {
+    text,
+    url: dto.url?.trim() ?? '',
+  }
+}
+
+/** `null`/ausente → true (comportamiento previo); solo `false` oculta. */
+function mapShowFlag(value: boolean | null | undefined): boolean {
+  return value !== false
+}
+
+export function mapLayoutFloatingFromStrapi(dto: StrapiLayoutDto): LayoutFloatingMenu {
+  const items = (dto.floatingItems ?? [])
+    .map(mapFloatingItem)
+    .filter((item): item is LayoutFloatingItem => item !== null)
+
+  return {
+    showFloatingBtn: mapShowFlag(dto.showFloatingBtn),
+    showContactItem: mapShowFlag(dto.showContactItem),
+    showShareItem: mapShowFlag(dto.showShareItem),
+    items,
+  }
+}
+
 export function mapLayoutFromStrapi(response: StrapiLayoutResponse): LayoutContent | null {
   const dto = response.data
   if (!dto) return null
@@ -71,5 +101,6 @@ function mapLayoutDto(dto: StrapiLayoutDto): LayoutContent {
     messageRight: dto.fotterMessageRigth?.trim() ?? '',
     copyright: parseCopyrightYear(copyrightRaw),
     nav: mapLayoutNavFromStrapi(dto.nav),
+    floating: mapLayoutFloatingFromStrapi(dto),
   }
 }
