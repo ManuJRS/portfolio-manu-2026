@@ -1,7 +1,7 @@
 import qs from 'qs'
 import type { AppLocale } from '@/features/home/types/locale'
 
-/** Query para el single type `layout` (footer + nav con items). */
+/** Query para el single type `layout` (footer + nav + floating). */
 export function buildLayoutQuery(locale: AppLocale = 'es'): string {
   return qs.stringify(
     {
@@ -10,6 +10,7 @@ export function buildLayoutQuery(locale: AppLocale = 'es'): string {
         nav: {
           populate: ['items'],
         },
+        floatingItems: true,
       },
     },
     { encodeValuesOnly: true },
