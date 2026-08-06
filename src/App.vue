@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import AppFooter from '@/features/home/components/AppFooter.vue'
+import { useLayout } from '@/features/home/composables/useLayout'
 import { isAppLocale, type AppLocale } from '@/features/home/types/locale'
 import BottomNav from '@/features/home/utils/BottomNav.vue'
 import AuthDialogModal from '@/shared/ui/AuthDialogModal.vue'
@@ -16,7 +17,13 @@ const locale = computed<AppLocale>(() => {
   return typeof value === 'string' && isAppLocale(value) ? value : 'es'
 })
 
+const { data: layout } = useLayout(locale)
+
 const contactModalOpen = ref(false)
+
+const floating = computed(() => layout.value?.floating)
+
+const showFloatingBtn = computed(() => floating.value?.showFloatingBtn ?? true)
 
 async function copyPageUrlToClipboard(): Promise<boolean> {
   const url = window.location.href
@@ -41,28 +48,53 @@ async function copyPageUrlToClipboard(): Promise<boolean> {
   }
 }
 
+function openFloatingUrl(url: string) {
+  const trimmed = url.trim()
+  if (!trimmed || trimmed === '#') {
+    void router.push({ name: 'home', params: { locale: locale.value } })
+    return
+  }
+  if (/^https?:\/\//i.test(trimmed)) {
+    window.open(trimmed, '_blank', 'noopener,noreferrer')
+    return
+  }
+  void router.push(trimmed.startsWith('/') ? trimmed : `/${trimmed}`)
+}
+
 const fabOptions = computed(() => {
   const es = locale.value === 'es'
-  const loc = locale.value
-  return [
-    {
-      label: es ? 'Portafolio' : 'Portfolio',
-      onClick: () => {
-        void router.push({ name: 'home', params: { locale: loc } })
-      },
-    },
-    {
+  const flags = floating.value
+  const options: {
+    label: string
+    onClick: () => void | boolean | Promise<void | boolean>
+    successMessage?: string
+  }[] = []
+
+  for (const item of flags?.items ?? []) {
+    options.push({
+      label: item.text,
+      onClick: () => openFloatingUrl(item.url),
+    })
+  }
+
+  if (flags?.showContactItem ?? true) {
+    options.push({
       label: es ? 'Contactar' : 'Contact',
       onClick: () => {
         contactModalOpen.value = true
       },
-    },
-    {
+    })
+  }
+
+  if (flags?.showShareItem ?? true) {
+    options.push({
       label: es ? 'Compartir' : 'Share',
       onClick: () => copyPageUrlToClipboard(),
       successMessage: es ? 'Enlace copiado' : 'Link copied',
-    },
-  ]
+    })
+  }
+
+  return options
 })
 
 const fabToggleAriaLabel = computed(() =>
@@ -70,7 +102,6 @@ const fabToggleAriaLabel = computed(() =>
 )
 
 const isWebDevelopPage = computed(() => route.name === 'web-develop')
-
 </script>
 
 <template>
@@ -79,6 +110,7 @@ const isWebDevelopPage = computed(() => route.name === 'web-develop')
     <AppFooter v-if="!isWebDevelopPage" />
 
     <FloatingActionMenuMotion
+      v-if="showFloatingBtn"
       :options="fabOptions"
       :toggle-aria-label="fabToggleAriaLabel"
       :locale="locale"
