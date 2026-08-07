@@ -84,6 +84,8 @@ export function mapLayoutFloatingFromStrapi(dto: StrapiLayoutDto): LayoutFloatin
     showFloatingBtn: mapShowFlag(dto.showFloatingBtn),
     showContactItem: mapShowFlag(dto.showContactItem),
     showShareItem: mapShowFlag(dto.showShareItem),
+    showMessage: Boolean(dto.showMessage),
+    floatingBtnMessage: dto.floatingBtnMessage?.trim() ?? '',
     items,
   }
 }

@@ -114,6 +114,8 @@ const isWebDevelopPage = computed(() => route.name === 'web-develop')
       :options="fabOptions"
       :toggle-aria-label="fabToggleAriaLabel"
       :locale="locale"
+      :show-message="floating?.showMessage ?? false"
+      :floating-btn-message="floating?.floatingBtnMessage ?? ''"
       class-name="bottom-24 right-5 sm:right-8"
       :open-eye-offset-x="-5.5"
       :open-eye-offset-y="-6.5"
