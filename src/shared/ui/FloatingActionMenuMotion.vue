@@ -17,6 +17,9 @@ interface Props {
   toggleAriaLabel?: string
   feedbackDurationMs?: number
   locale?: AppLocale
+  /** Si es true, muestra el hint con `floatingBtnMessage`. */
+  showMessage?: boolean
+  floatingBtnMessage?: string
   hintInitialDelayMs?: number
   hintVisibleDurationMs?: number
   hintPauseBetweenMs?: number
@@ -28,6 +31,8 @@ const props = withDefaults(defineProps<Props>(), {
   toggleAriaLabel: 'Abrir menú de acciones',
   feedbackDurationMs: 2800,
   locale: 'es',
+  showMessage: false,
+  floatingBtnMessage: '',
   hintInitialDelayMs: 5_000,
   hintVisibleDurationMs: 4_500,
   hintPauseBetweenMs: 42_000,
@@ -35,9 +40,11 @@ const props = withDefaults(defineProps<Props>(), {
   openEyeOffsetY: 0,
 })
 
-const hintText = computed(() =>
-  props.locale === 'en' ? 'Need more info?' : '¿Necesitas más info?',
+const hintEnabled = computed(
+  () => props.showMessage && props.floatingBtnMessage.trim().length > 0,
 )
+
+const hintText = computed(() => props.floatingBtnMessage.trim())
 
 const rootRef = ref<HTMLElement | null>(null)
 const eyeRef = ref<HTMLElement | null>(null)
@@ -63,6 +70,7 @@ function clearHintTimers() {
 }
 
 function scheduleHintCycle(delayMs: number) {
+  if (!hintEnabled.value) return
   if (hintLoopTimer) {
     clearTimeout(hintLoopTimer)
     hintLoopTimer = null
@@ -74,6 +82,10 @@ function scheduleHintCycle(delayMs: number) {
 }
 
 function runHintPulse() {
+  if (!hintEnabled.value) {
+    hintVisible.value = false
+    return
+  }
   if (isOpen.value) {
     scheduleHintCycle(props.hintPauseBetweenMs)
     return
@@ -143,11 +155,22 @@ watch(isOpen, (open) => {
   }
 })
 
+watch(hintEnabled, (enabled) => {
+  if (enabled) {
+    scheduleHintCycle(props.hintInitialDelayMs)
+  } else {
+    hintVisible.value = false
+    clearHintTimers()
+  }
+})
+
 onMounted(() => {
   window.addEventListener('pointermove', onWindowPointerMove, { passive: true })
   window.addEventListener('touchstart', onWindowTouchStart, { passive: true })
   window.addEventListener('touchmove', onWindowTouchMove, { passive: true })
-  scheduleHintCycle(props.hintInitialDelayMs)
+  if (hintEnabled.value) {
+    scheduleHintCycle(props.hintInitialDelayMs)
+  }
 })
 
 onUnmounted(() => {
@@ -203,7 +226,7 @@ async function handleOptionClick(option: MenuOption) {
       leave-to-class="opacity-0 translate-y-1"
     >
       <p
-        v-if="hintVisible"
+        v-if="hintVisible && hintEnabled"
         class="max-w-[11rem] text-right text-[11px] font-medium leading-tight text-white/85 drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)] sm:max-w-none sm:text-xs"
         aria-live="polite"
       >
