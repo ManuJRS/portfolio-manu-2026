@@ -24,6 +24,8 @@ export type LayoutFloatingMenu = {
   showFloatingBtn: boolean
   showContactItem: boolean
   showShareItem: boolean
+  showMessage: boolean
+  floatingBtnMessage: string
   items: LayoutFloatingItem[]
 }
 

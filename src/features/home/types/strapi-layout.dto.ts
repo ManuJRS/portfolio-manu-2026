@@ -29,6 +29,8 @@ export type StrapiLayoutDto = {
   showFloatingBtn?: boolean | null
   showContactItem?: boolean | null
   showShareItem?: boolean | null
+  showMessage?: boolean | null
+  floatingBtnMessage?: string | null
   floatingItems?: StrapiFloatingItemDto[] | null
   nav?: StrapiNavDto | null
   locale?: string
