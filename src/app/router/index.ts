@@ -1,19 +1,27 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { getSmoothScroll, smoothScrollTo } from '@/shared/utils/smoothScroll'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior(to, _from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    }
-    const smooth =
+    const reduced =
       typeof window !== 'undefined' &&
-      !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const behavior = smooth ? ('smooth' as const) : ('auto' as const)
-    if (to.hash) {
-      return { el: to.hash, behavior }
-    }
-    return { top: 0, left: 0, behavior }
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const immediate = reduced || !getSmoothScroll()
+
+    // Deja que Lenis (o el fallback) mueva el scroll; evita doble animación.
+    return new Promise((resolve) => {
+      requestAnimationFrame(() => {
+        if (savedPosition) {
+          smoothScrollTo(savedPosition.top, { immediate: true })
+        } else if (to.hash) {
+          smoothScrollTo(to.hash, { immediate })
+        } else {
+          smoothScrollTo(0, { immediate })
+        }
+        resolve(false)
+      })
+    })
   },
   routes: [
     {

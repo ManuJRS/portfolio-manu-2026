@@ -8,8 +8,10 @@
   }
   
   @media (prefers-reduced-motion: no-preference) {
-    html {
-      scroll-behavior: smooth;
+    /* El suavizado de rueda lo gestiona Lenis; evitar conflicto con CSS. */
+    html.lenis,
+    html.lenis body {
+      height: auto;
     }
   }
 
