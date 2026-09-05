@@ -3,6 +3,10 @@ import { computed, nextTick, onUnmounted, ref, useId, watch } from 'vue'
 import { X } from 'lucide-vue-next'
 import type { AppLocale } from '@/features/home/types/locale'
 import ContactForm from '@/shared/ui/ContactForm.vue'
+import {
+  pauseSmoothScroll,
+  resumeSmoothScroll,
+} from '@/shared/utils/smoothScroll'
 
 const props = withDefaults(
   defineProps<{
@@ -54,6 +58,7 @@ watch(
   (open) => {
     if (open) {
       document.body.style.overflow = 'hidden'
+      pauseSmoothScroll()
       window.addEventListener('keydown', onKeydown)
       void nextTick(() => {
         const first = panelRef.value?.querySelector<HTMLInputElement>(
@@ -63,6 +68,7 @@ watch(
       })
     } else {
       document.body.style.overflow = ''
+      resumeSmoothScroll()
       window.removeEventListener('keydown', onKeydown)
     }
   },
@@ -70,6 +76,7 @@ watch(
 
 onUnmounted(() => {
   document.body.style.overflow = ''
+  resumeSmoothScroll()
   window.removeEventListener('keydown', onKeydown)
 })
 </script>
