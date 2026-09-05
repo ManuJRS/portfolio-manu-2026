@@ -5,8 +5,11 @@ import AppFooter from '@/features/home/components/AppFooter.vue'
 import { useLayout } from '@/features/home/composables/useLayout'
 import { isAppLocale, type AppLocale } from '@/features/home/types/locale'
 import BottomNav from '@/features/home/utils/BottomNav.vue'
+import { useSmoothScroll } from '@/shared/composables/useSmoothScroll'
 import AuthDialogModal from '@/shared/ui/AuthDialogModal.vue'
 import FloatingActionMenuMotion from '@/shared/ui/FloatingActionMenuMotion.vue'
+
+useSmoothScroll()
 
 const route = useRoute()
 const router = useRouter()
