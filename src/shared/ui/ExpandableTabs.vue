@@ -70,11 +70,12 @@ const effectiveSelected = computed(() =>
       <button
         v-else
         type="button"
+        :aria-label="tab.title"
         :class="cn(
-          'hover:cursor-pointer relative flex items-center rounded-full text-sm font-medium transition-all duration-300 overflow-hidden',
+          'group/tab hover:cursor-pointer relative flex items-center rounded-full text-sm font-medium transition-all duration-300',
           effectiveSelected === index
-            ? cn('bg-surface-container px-4 py-2 gap-2', activeColor)
-            : 'text-on-surface-variant hover:text-on-surface px-2 gap-0 min-w-0'
+            ? cn('bg-surface-container px-4 py-2 gap-2 overflow-hidden', activeColor)
+            : 'text-on-surface-variant hover:text-on-surface px-2 gap-0 min-w-0',
         )"
         @click="handleSelect(index)"
       >
@@ -91,6 +92,14 @@ const effectiveSelected = computed(() =>
             {{ tab.title }}
           </span>
         </Transition>
+        <!-- Tooltip solo en tabs inactivos (el activo ya muestra el título). -->
+        <span
+          v-if="effectiveSelected !== index"
+          role="tooltip"
+          class="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 -translate-x-1/2 whitespace-nowrap rounded-md border border-white/10 bg-neutral-900/90 px-2 py-1 text-[10px] font-medium uppercase tracking-wider text-white opacity-0 shadow-lg backdrop-blur-md transition-opacity duration-150 group-hover/tab:opacity-100"
+        >
+          {{ tab.title }}
+        </span>
       </button>
     </template>
   </div>
