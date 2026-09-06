@@ -6,6 +6,7 @@ import { useLayout } from '@/features/home/composables/useLayout'
 import { isAppLocale, type AppLocale } from '@/features/home/types/locale'
 import BottomNav from '@/features/home/utils/BottomNav.vue'
 import { useSmoothScroll } from '@/shared/composables/useSmoothScroll'
+import SideLayer from '@/features/pop-ups/components/SideLayer.vue'
 import AuthDialogModal from '@/shared/ui/AuthDialogModal.vue'
 import FloatingActionMenuMotion from '@/shared/ui/FloatingActionMenuMotion.vue'
 
@@ -124,6 +125,7 @@ const isWebDevelopPage = computed(() => route.name === 'web-develop')
       :open-eye-offset-y="-6.5"
     />
     <AuthDialogModal v-model="contactModalOpen" :locale="locale" />
+    <SideLayer />
   </div>
   <BottomNav />
 </template>
