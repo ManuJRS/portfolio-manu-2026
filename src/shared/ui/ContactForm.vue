@@ -1,13 +1,7 @@
 <script setup lang="ts">
-import { computed, ref, useId } from 'vue'
+import { computed, reactive, ref, useId } from 'vue'
 import type { AppLocale } from '@/features/home/types/locale'
 import { cn } from '@/shared/utils/cn'
-
-/** Misma ruta que el formulario estático; coherente con Vite `base`. */
-const NETLIFY_FORM_POST_PATH = new URL(
-  import.meta.env.BASE_URL || '/',
-  'https://placeholder.example',
-).pathname
 
 const props = withDefaults(
   defineProps<{
@@ -44,27 +38,20 @@ const emit = defineEmits<{
   error: []
 }>()
 
-const formRef = ref<HTMLFormElement | null>(null)
+const form = reactive({
+  name: '',
+  email: '',
+  message: '',
+  /** Honeypot (debe coincidir con netlify-honeypot="bot-field" del form fantasma). */
+  botField: '',
+})
+
 const loading = ref(false)
 const success = ref(false)
 const error = ref(false)
 
 const rawId = useId()
 const fieldId = (suffix: string) => `${rawId.replace(/:/g, '')}-${suffix}`
-
-const isFilledString = (value: FormDataEntryValue | null): value is string =>
-  typeof value === 'string' && value.trim().length > 0
-
-/** Netlify Forms: cuerpo como URLSearchParams; fetch añade Content-Type + charset (no fijar header a mano). */
-const buildNetlifyBody = (form: HTMLFormElement) => {
-  const params = new URLSearchParams()
-  for (const [key, value] of new FormData(form).entries()) {
-    // El honeypot no se envía al backend; solo se usa como filtro local.
-    if (key === 'b_website') continue
-    params.append(key, typeof value === 'string' ? value : String(value))
-  }
-  return params
-}
 
 const rootClass = computed(() =>
   cn(
@@ -92,47 +79,66 @@ const submitClass = cn(
   'disabled:pointer-events-none disabled:opacity-50',
 )
 
-const handleSubmit = async () => {
-  if (!formRef.value || loading.value) return
+function resetForm() {
+  form.name = ''
+  form.email = ''
+  form.message = ''
+  form.botField = ''
+}
 
-  // Deshabilitar el botón de inmediato para evitar envíos dobles.
+async function enviarFormulario() {
+  if (loading.value) return
+
   loading.value = true
   success.value = false
   error.value = false
 
   try {
-    const formData = new FormData(formRef.value)
-    const honeypot = formData.get('b_website')
+    // Bot detectado: cancelar sin petición HTTP.
+    if (form.botField.trim().length > 0) return
 
-    // Bot detectado: cancelar sin emitir petición HTTP.
-    if (typeof honeypot === 'string' && honeypot.trim().length > 0) {
-      return
-    }
+    const name = form.name.trim()
+    const email = form.email.trim()
+    const message = form.message.trim()
 
-    const name = formData.get('name')
-    const email = formData.get('email')
-    const message = formData.get('message')
-
-    // Validación estricta: no enviar null, undefined ni cadenas vacías.
-    if (!isFilledString(name) || !isFilledString(email) || !isFilledString(message)) {
+    if (!name || !email || !message) {
       error.value = true
       emit('error')
       return
     }
 
-    const response = await fetch(NETLIFY_FORM_POST_PATH, {
+    const datos = new FormData()
+    datos.append('form-name', 'contacto')
+    datos.append('bot-field', '')
+    datos.append('name', name)
+    datos.append('email', email)
+    datos.append('message', message)
+
+    // FormData → URL-encoded (requerido por Netlify Forms vía AJAX).
+    const body = new URLSearchParams(
+      Array.from(datos.entries()) as [string, string][],
+    ).toString()
+
+    const response = await fetch('/', {
       method: 'POST',
-      body: buildNetlifyBody(formRef.value),
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body,
     })
 
     if (!response.ok) {
+      console.error(
+        `[ContactForm] Falló el envío (${response.status}). ` +
+          (import.meta.env.DEV
+            ? 'Reinicia `npm run dev` para el mock local, o prueba en Netlify.'
+            : 'Revisa en Netlify → Forms que exista el formulario "contacto".'),
+      )
       error.value = true
       emit('error')
       return
     }
 
+    resetForm()
     success.value = true
-    formRef.value.reset()
     emit('success')
   } catch {
     error.value = true
@@ -144,28 +150,14 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <form
-    ref="formRef"
-    name="contact"
-    :action="NETLIFY_FORM_POST_PATH"
-    method="POST"
-    netlify
-    class="text-left"
-    :class="rootClass"
-    @submit.prevent="handleSubmit"
-  >
-    <input type="hidden" name="form-name" value="contact" />
-
-    <!-- Honeypot: oculto a humanos; los bots suelen rellenarlo. -->
-    <input
-      type="text"
-      name="b_website"
-      tabindex="-1"
-      autocomplete="off"
-      aria-hidden="true"
-      class="absolute -left-[9999px] h-0 w-0 opacity-0"
-      style="display: none"
-    />
+  <form class="text-left" :class="rootClass" @submit.prevent="enviarFormulario">
+    <!-- Honeypot: oculto; Netlify lo ignora si viene vacío (netlify-honeypot="bot-field"). -->
+    <p class="hidden" aria-hidden="true">
+      <label>
+        Don’t fill this out:
+        <input v-model="form.botField" type="text" name="bot-field" tabindex="-1" autocomplete="off" />
+      </label>
+    </p>
 
     <div class="space-y-2">
       <label
@@ -176,6 +168,7 @@ const handleSubmit = async () => {
       </label>
       <input
         :id="fieldId('name')"
+        v-model="form.name"
         type="text"
         name="name"
         :placeholder="copy.placeholderName"
@@ -195,6 +188,7 @@ const handleSubmit = async () => {
       </label>
       <input
         :id="fieldId('email')"
+        v-model="form.email"
         type="email"
         name="email"
         :placeholder="copy.placeholderEmail"
@@ -214,6 +208,7 @@ const handleSubmit = async () => {
       </label>
       <textarea
         :id="fieldId('message')"
+        v-model="form.message"
         name="message"
         :placeholder="copy.placeholderMessage"
         required
