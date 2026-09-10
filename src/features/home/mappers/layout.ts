@@ -1,12 +1,14 @@
 import type {
   StrapiFloatingItemDto,
   StrapiLayoutDto,
+  StrapiLayoutFormDto,
   StrapiLayoutResponse,
   StrapiNavDto,
   StrapiNavItemDto,
   StrapiNavSvg,
 } from '../types/strapi-layout.dto'
 import type {
+  LayoutContactForm,
   LayoutContent,
   LayoutCopyright,
   LayoutFloatingItem,
@@ -90,6 +92,25 @@ export function mapLayoutFloatingFromStrapi(dto: StrapiLayoutDto): LayoutFloatin
   }
 }
 
+export function mapLayoutFormFromStrapi(
+  form: StrapiLayoutFormDto | null | undefined,
+): LayoutContactForm | null {
+  if (!form) return null
+
+  return {
+    title: form.title?.trim() ?? '',
+    description: form.description?.trim() ?? '',
+    nameLabel: form.nameLabel?.trim() ?? '',
+    namePlaceholder: form.namePlaceholder?.trim() ?? '',
+    emailLabel: form.emailLabel?.trim() ?? '',
+    emailPlaceholder: form.emailPlaceholder?.trim() ?? '',
+    messageLabel: form.messageLabel?.trim() ?? '',
+    messagePlaceholder: form.messagePlaceholder?.trim() ?? '',
+    buttonText: form.buttonText?.trim() ?? '',
+    messageSuccess: form.MessageSucces?.trim() ?? '',
+  }
+}
+
 export function mapLayoutFromStrapi(response: StrapiLayoutResponse): LayoutContent | null {
   const dto = response.data
   if (!dto) return null
@@ -104,5 +125,6 @@ function mapLayoutDto(dto: StrapiLayoutDto): LayoutContent {
     copyright: parseCopyrightYear(copyrightRaw),
     nav: mapLayoutNavFromStrapi(dto.nav),
     floating: mapLayoutFloatingFromStrapi(dto),
+    form: mapLayoutFormFromStrapi(dto.form),
   }
 }
