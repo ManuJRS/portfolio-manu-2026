@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, nextTick, onUnmounted, ref, useId, watch } from 'vue'
+import { computed, nextTick, onUnmounted, ref, toRef, useId, watch } from 'vue'
 import { X } from 'lucide-vue-next'
+import { useLayout } from '@/features/home/composables/useLayout'
 import type { AppLocale } from '@/features/home/types/locale'
 import ContactForm from '@/shared/ui/ContactForm.vue'
 import {
@@ -18,7 +19,10 @@ const props = withDefaults(
   },
 )
 
-const strings = computed(() => {
+const localeRef = toRef(props, 'locale')
+const { data: layout } = useLayout(localeRef)
+
+const fallbackStrings = computed(() => {
   const en = props.locale === 'en'
   return {
     title: en ? 'Get in touch' : 'Solicitar información',
@@ -28,6 +32,14 @@ const strings = computed(() => {
     close: en ? 'Close' : 'Cerrar',
   }
 })
+
+const contactForm = computed(() => layout.value?.form)
+
+const strings = computed(() => ({
+  title: contactForm.value?.title || fallbackStrings.value.title,
+  description: contactForm.value?.description || fallbackStrings.value.description,
+  close: fallbackStrings.value.close,
+}))
 
 const emit = defineEmits<{
   'update:modelValue': [value: boolean]
@@ -130,7 +142,7 @@ onUnmounted(() => {
             </h2>
             <p
               :id="`${formId}-desc`"
-              class="text-start text-sm text-on-surface-variant"
+              class="text-start text-sm text-on-surface-variant whitespace-pre-line"
             >
               {{ strings.description }}
             </p>
@@ -139,6 +151,7 @@ onUnmounted(() => {
           <ContactForm
             variant="embedded"
             :locale="locale"
+            :labels="contactForm"
             @success="closeAfterSuccess"
           />
         </div>

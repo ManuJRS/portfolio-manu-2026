@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, ref, useId } from 'vue'
+import type { LayoutContactForm } from '@/features/home/types/layout.model'
 import type { AppLocale } from '@/features/home/types/locale'
 import { cn } from '@/shared/utils/cn'
 
@@ -8,14 +9,17 @@ const props = withDefaults(
     /** `embedded`: ancho completo para usar dentro de modales u otros contenedores */
     variant?: 'standalone' | 'embedded'
     locale?: AppLocale
+    /** Textos desde `/api/layout` → `form` (opcional; hay fallbacks por locale). */
+    labels?: LayoutContactForm | null
   }>(),
   {
     variant: 'standalone',
     locale: 'es',
+    labels: null,
   },
 )
 
-const copy = computed(() => {
+const fallbackCopy = computed(() => {
   const en = props.locale === 'en'
   return {
     labelName: en ? 'Name' : 'Nombre',
@@ -30,6 +34,23 @@ const copy = computed(() => {
     submitting: en ? 'Sending…' : 'Enviando…',
     success: en ? 'Message sent successfully' : 'Mensaje enviado correctamente',
     error: en ? 'Could not send the message' : 'Error al enviar el mensaje',
+  }
+})
+
+const copy = computed(() => {
+  const fromLayout = props.labels
+  const fallback = fallbackCopy.value
+  return {
+    labelName: fromLayout?.nameLabel || fallback.labelName,
+    labelEmail: fromLayout?.emailLabel || fallback.labelEmail,
+    labelMessage: fromLayout?.messageLabel || fallback.labelMessage,
+    placeholderName: fromLayout?.namePlaceholder || fallback.placeholderName,
+    placeholderEmail: fromLayout?.emailPlaceholder || fallback.placeholderEmail,
+    placeholderMessage: fromLayout?.messagePlaceholder || fallback.placeholderMessage,
+    submit: fromLayout?.buttonText || fallback.submit,
+    submitting: fallback.submitting,
+    success: fromLayout?.messageSuccess || fallback.success,
+    error: fallback.error,
   }
 })
 
