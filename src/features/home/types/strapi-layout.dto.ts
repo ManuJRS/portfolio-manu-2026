@@ -20,6 +20,21 @@ export type StrapiFloatingItemDto = {
   url?: string | null
 }
 
+export type StrapiLayoutFormDto = {
+  id: number
+  title?: string | null
+  description?: string | null
+  nameLabel?: string | null
+  namePlaceholder?: string | null
+  emailLabel?: string | null
+  emailPlaceholder?: string | null
+  messageLabel?: string | null
+  messagePlaceholder?: string | null
+  buttonText?: string | null
+  /** Typo del schema en Strapi (MessageSucces). */
+  MessageSucces?: string | null
+}
+
 export type StrapiLayoutDto = {
   id: number
   documentId: string
@@ -33,6 +48,7 @@ export type StrapiLayoutDto = {
   floatingBtnMessage?: string | null
   floatingItems?: StrapiFloatingItemDto[] | null
   nav?: StrapiNavDto | null
+  form?: StrapiLayoutFormDto | null
   locale?: string
   createdAt?: string
   updatedAt?: string

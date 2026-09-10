@@ -29,10 +29,24 @@ export type LayoutFloatingMenu = {
   items: LayoutFloatingItem[]
 }
 
+export type LayoutContactForm = {
+  title: string
+  description: string
+  nameLabel: string
+  namePlaceholder: string
+  emailLabel: string
+  emailPlaceholder: string
+  messageLabel: string
+  messagePlaceholder: string
+  buttonText: string
+  messageSuccess: string
+}
+
 export type LayoutContent = {
   titleLeft: string
   messageRight: string
   copyright: LayoutCopyright
   nav: LayoutNav
   floating: LayoutFloatingMenu
+  form: LayoutContactForm | null
 }
