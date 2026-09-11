@@ -51,14 +51,25 @@ const router = createRouter({
       component: () => import('@/features/blog/views/BlogArticleView.vue'),
     },
     {
-      path: '/:locale(es|en)/projects/:slug',
-      name: 'project-detail',
-      component: () => import('@/features/projects/views/ProjectDetailView.vue'),
-    },
-    {
       path: '/:locale(es|en)/info',
       name: 'info',
       component: () => import('@/features/info/views/InfoView.vue'),
+    },
+    /** Compatibilidad: URLs antiguas /:locale/projects/:slug */
+    {
+      path: '/:locale(es|en)/projects/:slug',
+      redirect: (to) => ({
+        name: 'project-detail',
+        params: {
+          locale: to.params.locale,
+          slug: to.params.slug,
+        },
+      }),
+    },
+    {
+      path: '/:locale(es|en)/:slug',
+      name: 'project-detail',
+      component: () => import('@/features/projects/views/ProjectDetailView.vue'),
     },
     {
       path: '/:locale(es|en)',
