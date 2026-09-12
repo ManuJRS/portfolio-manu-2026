@@ -42,6 +42,15 @@ const localeTooltip = computed(() =>
 
 function handleLocaleChange(newLocale: 'es' | 'en') {
   localeOpen.value = false
+
+  const w = window as Window & { dataLayer?: Record<string, unknown>[] }
+  w.dataLayer = w.dataLayer || []
+  const payload = {
+    event: 'change_language',
+    selected_language: newLocale,
+  }
+  w.dataLayer.push(payload)
+
   const path = route.path.replace(/^\/(es|en)/, `/${newLocale}`)
   void router.push(path)
 }
